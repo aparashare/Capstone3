@@ -1,0 +1,196 @@
+<form [formGroup]="workshopForm" (keydown.enter)="$event.preventDefault()">
+    <div class="class-registration-content">
+        <h1 class="full-width">Class Registration Form</h1>
+        <h2 class="full-width">Basic information</h2>
+        <div class="col">
+            <label for="title" class="title">Title of the class<sup>*</sup></label>
+            <mat-form-field appearance="fill">
+                <input type="text" id="title" matInput placeholder="Title" formControlName="title">
+                <mat-error *ngIf="workshopForm.controls.title.invalid">
+                    {{ REQUIRED_FIELD }}
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="col">
+            <label for="subject" class="title">Subject of the class<sup>*</sup></label>
+            <mat-form-field appearance="fill">
+                <input type="text" id="subject" matInput placeholder="Subject" formControlName="subject">
+                <mat-error *ngIf="workshopForm.controls.subject.invalid">
+                    {{ REQUIRED_FIELD }}
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="custom-grid full-width">
+            <div class="col">
+                <label>Date of the class<sup>*</sup></label>
+                <div>
+                    <mat-form-field appearance="fill">
+                        <mat-select placeholder="Day" formControlName="day">
+                            <mat-option *ngFor="let day of days" value="{{day}}">{{day}}</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="workshopForm.controls.day.invalid && !workshopForm.controls.day.value">
+                            {{ REQUIRED_FIELD }}
+                        </mat-error>
+                        <mat-error *ngIf="workshopForm.controls.day.errors?.incorrect && workshopForm.controls.day.value">
+                            {{ INVALID_DATE_FIELD }}
+                        </mat-error>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill">
+                        <mat-select placeholder="Month" formControlName="month">
+                            <mat-option *ngFor="let month of months" value="{{month}}">{{month}}</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="workshopForm.controls.month.invalid && !workshopForm.controls.month.value">
+                            {{ REQUIRED_FIELD }}
+                        </mat-error>
+                        <mat-error *ngIf="workshopForm.controls.month.errors?.incorrect && workshopForm.controls.month.value">
+                            {{ INVALID_DATE_FIELD }}
+                        </mat-error>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill">
+                        <mat-select placeholder="Year" formControlName="year">
+                            <mat-option *ngFor="let year of years" value="{{year}}">{{year}}</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="workshopForm.controls.year.invalid && !workshopForm.controls.year.value">
+                            {{ REQUIRED_FIELD }}
+                        </mat-error>
+                        <mat-error *ngIf="workshopForm.controls.year.errors?.incorrect && workshopForm.controls.year.value">
+                            {{ INVALID_DATE_FIELD }}
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label for="time">Time of the class<sup>*</sup></label>
+                    <mat-form-field appearance="fill">
+                        <mat-select placeholder="11 PM" id="time" formControlName="time">
+                            <mat-option [value]="t" *ngFor="let t of time">{{t}}</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="workshopForm.controls.time.invalid">
+                            {{ REQUIRED_FIELD }}
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col" *ngIf="timezones">
+                    <label for="timezone">Timezone</label>
+                    <mat-form-field appearance="fill">
+                        <mat-select placeholder="EST" id="timezone">
+                            <mat-option [value]="t" *ngFor="let t of timezones">{{t}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <label for="amount" class="title">Maximum amount of the students<sup>*</sup></label>
+            <mat-form-field appearance="fill">
+                <input type="number" id="amount" matInput placeholder="Maximum amount" formControlName="amount" max="100" min="0">
+                <mat-error *ngIf="workshopForm.controls.amount.invalid && !workshopForm.controls.amount.value">
+                    {{ REQUIRED_FIELD }}
+                </mat-error>
+                <mat-error *ngIf="workshopForm.controls.amount.invalid && workshopForm.controls.amount.value">
+                    {{ INVALID_FIELD }}
+                </mat-error>
+                <mat-hint>Maximum amount of students for one class is 100</mat-hint>
+            </mat-form-field>
+        </div>
+
+        <div class="col full-width">
+            <label for="topics" class="title">Topics to be taught in the class<sup>*</sup></label>
+            <angular-editor [config]="editorConfig" [ngModelOptions]="{standalone: true}" [placeholder]="'Enter text here...'" [(ngModel)]="htmlContent"></angular-editor>
+            <!-- <mat-form-field appearance="fill">
+
+                <textarea id="topics" matInput formControlName="topics"></textarea>
+                <mat-error *ngIf="workshopForm.controls.topics.touched && workshopForm.controls.topics.invalid">
+                    {{ REQUIRED_FIELD }}
+                </mat-error>
+                <mat-hint>Students would like to know what’s gonna be learned in the class</mat-hint>
+            </mat-form-field> -->
+
+        </div>
+
+        <div class="full-width title tags">
+            <label for="tags" class="full-length">Tags</label>
+            <div class="tags full-length">
+                <div class="tag" *ngFor="let tag of tags">
+                    <p>{{tag}}
+                        <img src="../../assets/images/cross.png" (click)="removeTag(tag)" alt="" class="delete-tag">
+                    </p>
+                </div>
+            </div>
+            <mat-form-field appearance="fill" class="full-length">
+                <input id="tags" matInput #tag formControlName="tags" (keydown.enter)="addTag(tag.value, tag)" placeholder="+ Add a tag and press Enter" required>
+                <mat-error *ngIf="workshopForm.controls.tags.errors?.required">
+                    {{ REQUIRED_TAGS_FIELD }}
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+        <h2 class="full-width">Pricing Information</h2>
+        <div class="full-width row price">
+            <div class="col">
+                <label for="price">Price<sup>*</sup></label>
+                <mat-form-field appearance="fill">
+                    <input type="number" id="price" matInput placeholder="Put your price down here" formControlName="price">
+                    <mat-error *ngIf="workshopForm.controls.price.invalid && !workshopForm.controls.price.value">
+                        {{ REQUIRED_FIELD }}
+                    </mat-error>
+                    <mat-error *ngIf="workshopForm.controls.price.invalid && workshopForm.controls.price.value">
+                        {{ INVALID_FIELD }}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col">
+                <label for="currency">Currency<sup>*</sup></label>
+                <mat-form-field appearance="fill">
+                    <mat-select placeholder="EUR" id="currency" formControlName="price_currency">
+                        <mat-option value="{{c.key}}" *ngFor="let c of currencies | keyvalue">{{c.value}}</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="workshopForm.controls.price_currency.invalid">
+                        {{ REQUIRED_FIELD }}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <button type="button" mat-stroked-button class="free-button" [disabled]="!canCreateFreeWorkshops" [color]="freeWorkshops ? 'accent' : null" [ngClass]="{'not-allowed': !canCreateFreeWorkshops }" (click)="onFree()">FREE</button>
+        </div>
+
+        <!--  <h2 class="full-width row">Create Coupon Code</h2>-->
+        <!--  <div class="col">-->
+        <!--    <label for="coupon" class="title">The discount value of a coupon code in %</label>-->
+        <!--    <mat-form-field appearance="fill">-->
+        <!--      <input type="text" id="coupon" matInput placeholder="f.e. 20">-->
+        <!--    </mat-form-field>-->
+        <!--  </div>-->
+        <!--  <div class="col">-->
+        <!--    <label for="code" class="title">Create your code word</label>-->
+        <!--    <mat-form-field appearance="fill">-->
+        <!--      <input type="text" id="code" matInput placeholder="f.e. BIO25">-->
+        <!--    </mat-form-field>-->
+        <!--  </div>-->
+        <!--  <div class="col full-width">-->
+        <!--    <label for="code-reason" class="title">Why would you like to create a Coupon Code?</label>-->
+        <!--    <mat-form-field appearance="fill">-->
+        <!--      <textarea type="text" id="code-reason" matInput></textarea>-->
+        <!--      <mat-hint>We would like to know what value would yo like to create with your Coupon Code.</mat-hint>-->
+        <!--    </mat-form-field>-->
+        <!--  </div>-->
+        <h2 class="full-width">Picture Upload<sup>*</sup></h2>
+        <button mat-button class="picture-upload" *ngIf="!url" (click)="imageInput.click()" (keydown.enter)="$event.preventDefault()">
+    <div class="center">
+      <img src="../../assets/images/plus.png" alt="">
+      <p>Upload the picture</p>
+    </div>
+  </button>
+        <img *ngIf="url" (click)="imageInput.click()" (keydown.enter)="$event.preventDefault()" id="imagePreview" class="image-preview" [src]="url" alt="Preview">
+        <input #imageInput class="image-upload" type="file" accept="image/*" (change)="fileProgress($event)">
+        <mat-error *ngIf="workshopForm.controls.picture.errors?.incorrect" class="error">
+            {{ REQUIRED_PICTURE_FIELD }}
+        </mat-error>
+        <div class="register-btn full-width">
+            <button mat-flat-button color="accent" (click)="submitForm()">Create Class</button>
+        </div>
+    </div>
+</form>

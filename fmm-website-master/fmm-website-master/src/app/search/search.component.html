@@ -1,0 +1,69 @@
+<mat-sidenav-container class="example-container">
+    <mat-sidenav #sidenav mode="over" class="navbar" position="end">
+        <app-filters (filters)="getDataAgain($event)" [mentors]="selectedMentors"></app-filters>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+        <div class="search-container">
+            <h2>{{count}} results for “{{searchQuery}}”</h2>
+            <div class="mobile">
+                <app-filters (filters)="getDataAgain($event)" [mentors]="selectedMentors"></app-filters>
+            </div>
+            <div class="inline-block">
+                <div class="row">
+                    <div class="buttons">
+                        <button mat-button (click)="changeSelected()" [ngClass]="{'active': !selectedMentors}">Classes</button>
+                        <button mat-button (click)="changeSelected()" [ngClass]="{'active': selectedMentors}">Mentors</button>
+                    </div>
+                    <button mat-button class="desktop active" (click)="sidenav.toggle()">Filters</button>
+                    <!--            <mat-form-field appearance="outline" class="sort-input">-->
+                    <!--              <mat-select placeholder="Popular">-->
+                    <!--                <mat-option value="option">option</mat-option>-->
+                    <!--              </mat-select>-->
+                    <!--            </mat-form-field>-->
+                </div>
+                <div class="blocks">
+                    <ng-container *ngIf="!selectedMentors; else selectedWorkshops">
+                        <div class="class" *ngFor="let workshop of dataWorkshops" [routerLink]="'../class/' + workshop.id">
+                            <img [src]="workshop.picture" alt="" class="class-image">
+                            <div class="price">{{workshop.price}} {{workshop.price_currency}}</div>
+                            <h3>{{workshop.title}}</h3>
+                            <mat-divider></mat-divider>
+                            <div class="col-2">
+                                <img src="../../assets/images/clock.svg" alt="clock">
+                                <p>{{workshop.start_at.split('+')[0] | date : 'hh:mm a'}}</p>
+                                <img src="../../assets/images/mini-calendar.svg" alt="calendar">
+                                <p>{{workshop.start_at | date : 'MMMM dd'}}</p>
+                            </div>
+                        </div>
+                    </ng-container>
+                    <ng-template #selectedWorkshops>
+                        <div class="block" *ngFor="let mentor of dataMentors" [routerLink]="'../profile/mentor/' + mentor.id">
+                            <ng-container *ngIf="mentor.user.avatar; else standart">
+                                <img [src]="mentor.user.avatar" class="user-image" alt="Mentor">
+                            </ng-container>
+                            <ng-template #standart>
+                                <img src="../../assets/images/user.svg" class="user-image" alt="Mentor">
+                            </ng-template>
+                            <div>
+                                <p class="name">{{mentor.user.first_name}}</p>
+                                <mat-divider class="mobile"></mat-divider>
+                                <!--                <p class="subject">{{mentor.subject}}</p>-->
+                                <div class="starts" *ngIf="mentor?.user.rating">
+                                    <ng-container *ngFor="let i of mentor?.user.rating | fill">
+                                        <img src="../../assets/images/star.png" alt="start">
+                                    </ng-container>
+                                    <ng-container *ngFor="let i of (5 - mentor?.user.rating) | fill">
+                                        <img src="../../assets/images/outlined-star.png" alt="start">
+                                    </ng-container>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-template>
+                </div>
+                <mat-paginator [length]="count" [pageIndex]="pageIndex" [pageSize]="pageSize" (page)="getData($event)" [pageSizeOptions]="pageSizeOptions">
+                </mat-paginator>
+            </div>
+        </div>
+    </mat-sidenav-content>
+</mat-sidenav-container>

@@ -1,0 +1,25 @@
+<div>
+
+    <div class="main-div">
+        <div class="heading-div">
+
+            <h1>Rate the class</h1>
+        </div>
+        <div class="class-div">
+            <span>Class Name : </span>
+            <span>{{class.title}}</span>
+        </div>
+        <div class="mentor-div">
+            <span>Mentor Name : </span>
+            <span>{{class.mentor.user.first_name}} {{class.mentor.user.last_name}} </span>
+
+        </div>
+        <mat-slider thumbLabel [displayWith]="formatLabel" tickInterval="1" min="0" max="10" (input)="onSlideChange($event)"></mat-slider>
+        <div class="area-div">
+            <textarea placeholder="Write your comment" [(ngModel)]="comment"></textarea>
+        </div>
+        <button mat-flat-button color="accent" type="button" (click)="postReview()" class="right">Submit</button>
+
+    </div>
+
+</div>

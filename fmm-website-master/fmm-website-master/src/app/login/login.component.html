@@ -1,0 +1,19 @@
+<ng-container *ngIf="!showPasswordRequest; else passReset">
+    <form (ngSubmit)="submit()" [formGroup]="loginForm">
+        <h1>Sign In</h1>
+        <mat-form-field appearance="fill">
+            <input type="email" matInput placeholder="Email" formControlName="username">
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+            <input type="password" matInput placeholder="Password" formControlName="password">
+        </mat-form-field>
+        <p class="disclaimer">By creating account on FindMeMentor, you are agreeing to all terms and conditions of FindMeMetor</p>
+        <button mat-raised-button type="submit" color="accent">Login</button>
+        <a (click)="showPasswordRequest = true" class="forgot-password">Forgot password?</a>
+        <a mat-button color="accent" type="click" class="register-btn" (click)="openRegister()">Register</a>
+    </form>
+</ng-container>
+
+<ng-template #passReset>
+    <app-request-password></app-request-password>
+</ng-template>

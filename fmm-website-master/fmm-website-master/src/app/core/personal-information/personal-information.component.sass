@@ -1,0 +1,79 @@
+@import "../../registration-form/registration-form.component"
+
+.table
+  display: grid
+  grid-template-columns: 1fr 1fr
+  grid-column-gap: 20px
+
+.gender
+  display: inline-flex
+  flex-direction: column
+  vertical-align: top
+  width: 300px
+
+.date-of-birth-col
+  width: calc(100% - 300px)
+  display: inline-block
+
+.date-of-birth-label
+  display: block
+
+.width-33
+  width: 29%
+  margin-right: 21px
+
+// IMAGE UPLOAD STYLES
+.image-upload
+  display: none
+
+.user-image, .preview
+  z-index: 1
+  width: 114px
+  object-fit: cover
+  height: 114px
+  border-radius: 100%
+
+.user-image-overlay
+  visibility: hidden
+  position: relative
+  left: -114px
+  z-index: 10
+
+.user-image:hover + .user-image-overlay
+  visibility: visible
+
+.preview:hover + .user-image-overlay
+  visibility: visible
+
+.user-image-overlay:hover
+  visibility: visible
+
+.preview
+  width: 114px
+  height: 114px
+  border-radius: 100%
+  object-fit: cover
+
+.status
+  width: 280px
+  height: 47px
+  background-color: #D3D3D3
+  border-radius: 4px
+  text-align: center
+
+
+@media screen and (max-width: 982px)
+  .date-of-birth-col
+    width: 80%
+  .gender
+    width: 100%
+
+@media screen and (max-width: 768px)
+  form
+    grid-template-columns: 80%
+  .table
+    grid-template-columns: 1fr
+  .date-of-birth-col
+    width: 80%
+  .gender
+    width: 100%

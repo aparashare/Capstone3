@@ -1,0 +1,36 @@
+<form action="" class="container two-columns">
+  <div id="column-one">
+    <h2>Have questions?</h2>
+    <div class="menu-item">Payment</div>
+    <div class="menu-item">Teachers</div>
+    <div class="menu-item">Courses</div>
+    <div class="menu-item">Classes</div>
+  </div>
+  <mat-accordion class="accordion">
+    <mat-expansion-panel
+      hideToggle
+      *ngFor="let faq of faqs; let i = index"
+      #expansionPanel
+    >
+      <mat-expansion-panel-header
+        [collapsedHeight]="'65px'"
+        [expandedHeight]="'65px'"
+        class="right-aligned-header"
+        [ngClass]="{'white-background': expansionPanel.expanded}"
+      >
+        <mat-panel-title>
+          {{ faq.title }}
+        </mat-panel-title>
+        <mat-panel-description>
+          <mat-icon *ngIf="!expansionPanel.expanded" class="expansion-icon"
+            >add</mat-icon
+          >
+          <mat-icon *ngIf="expansionPanel.expanded" class="expansion-icon"
+            >remove</mat-icon
+          >
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <p class="panel-body">{{ faq.body }}</p>
+    </mat-expansion-panel>
+  </mat-accordion>
+</form>

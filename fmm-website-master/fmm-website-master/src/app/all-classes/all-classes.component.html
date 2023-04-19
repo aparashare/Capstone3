@@ -1,0 +1,60 @@
+<div class="all-classes-content">
+    <div class="row">
+        <h3>My Classes</h3>
+        <button mat-button [color]="condition ? 'accent' : 'primary'" (click)="conditionChange(true)">Upcoming</button>
+        <button mat-button [color]="condition ? 'primary' : 'accent'" (click)="conditionChange(false)">Past</button>
+        <button mat-button color="accent" routerLink="../search">Add New Class</button>
+    </div>
+
+    <div *ngIf="condition; then thenBlock else elseBlock"></div>
+    <ng-template #thenBlock>
+        <div class="classes">
+            <div class="class" *ngFor="let workshop of upcommingClass" [routerLink]="'../class/' + workshop.id">
+                <img [src]=" workshop.workshop.picture" alt="" class="class-image">
+                <div class="price">{{workshop.workshop.price}} {{workshop.workshop.price_currency}}</div>
+                <div class="tag">
+                    <img src="../../assets/images/check.png" alt="check"> You’re enrolled
+                </div>
+                <p class="time">{{workshop.workshop.start_at.split('+')[0] | date : 'dd MMM yy hh:mm a'}}</p>
+                <p class="title">{{workshop.workshop.title}}</p>
+                <mat-divider></mat-divider>
+                <div class="user">
+                    <ng-container *ngIf="workshop.workshop.mentor.user.avatar; else defaultAvatar">
+                        <img [src]=" workshop.workshop.mentor.user.avatar" alt="User" class="mentor-avatar">
+                    </ng-container>
+                    <ng-template #defaultAvatar>
+                        <img src="../../assets/images/user.svg" alt="User" class="mentor-avatar">
+                    </ng-template>
+                    <p class="name">{{workshop.workshop.mentor.user.first_name}}</p>
+                </div>
+            </div>
+        </div>
+
+    </ng-template>
+    <ng-template #elseBlock>
+        <div class="classes">
+            <div class="class" *ngFor="let workshop of pastClass" [routerLink]="'../class/' + workshop.id">
+                <img [src]=" workshop.workshop.picture" alt="" class="class-image">
+                <div class="price">{{workshop.workshop.price}} {{workshop.workshop.price_currency}}</div>
+                <div class="tag">
+                    <img src="../../assets/images/check.png" alt="check"> You’re enrolled
+                </div>
+                <p class="time">{{workshop.workshop.start_at.split('+')[0] | date : 'dd MMM yy hh:mm a'}}</p>
+                <p class="title">{{workshop.workshop.title}}</p>
+                <mat-divider></mat-divider>
+                <div class="user">
+                    <ng-container *ngIf="workshop.workshop.mentor.user.avatar; else defaultAvatar">
+                        <img [src]=" workshop.workshop.mentor.user.avatar" alt="User" class="mentor-avatar">
+                    </ng-container>
+                    <ng-template #defaultAvatar>
+                        <img src="../../assets/images/user.svg" alt="User" class="mentor-avatar">
+                    </ng-template>
+                    <p class="name">{{workshop.workshop.mentor.user.first_name}}</p>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+
+    <mat-paginator></mat-paginator>
+
+</div>

@@ -1,0 +1,314 @@
+<mat-toolbar>
+    <img [src]="'../../assets/images/' + micState + '.svg'" alt="" *ngIf="micState!=null && user?.mentor_account?.id != workshop?.mentor.id" (click)="toggleAudio()" class="icon">
+    <img [src]="'../../assets/images/' + micState + '.svg'" alt="" *ngIf="user?.mentor_account?.id === workshop?.mentor.id" (click)="toggleAudio()" class="icon">
+    <img [src]="'../../assets/images/' + cameraState + '.svg'" alt="" *ngIf="user?.mentor_account?.id === workshop?.mentor.id" (click)="toggleVideo()" class="icon">
+    <img src="../../assets/images/record.png" class="recorder" (click)="startRecording()" *ngIf="recordingState && (user?.mentor_account?.id === workshop?.mentor.id)">
+    <span class="material-icons recorder-down" *ngIf="downloadState && (user?.mentor_account?.id === workshop?.mentor.id)" (click)="stopRecording()">
+            cloud_download
+            </span>
+    <span class="material-icons hand-down" *ngIf="isHandRaised==true && user?.mentor_account?.id != workshop?.mentor.id" alt="" (click)="toggleHandRaise(false)">
+        pan_tool
+        </span>
+    <span class="material-icons hand-up" *ngIf="isHandRaised==false && user?.mentor_account?.id != workshop?.mentor.id" alt="" (click)="toggleHandRaise(true)">
+            pan_tool
+        </span>
+    <!-- <img [src]="'../../assets/images/hand-activated.jpeg'" *ngIf="(isHandRaised==true || isHandRaised=='true') && (user?.mentor_account?.id != workshop?.mentor.id)" alt="" (click)="toggleHandRaise(false)" class="icon">
+    <img [src]="'../../assets/images/hand-deactivated.jpeg'" *ngIf="(isHandRaised==false || isHandRaised=='false') && (user?.mentor_account?.id != workshop?.mentor.id)" alt="" (click)="toggleHandRaise(true)" class="icon"> -->
+    <img [src]="'../../assets/images/screen-sharing.svg'" alt="" *ngIf="user?.mentor_account?.id === workshop?.mentor.id" (click)="toggleScreen()" class="icon">
+    <span class="material-icons exit-icon" (click)="quitMeeting()">
+            exit_to_app
+        </span>
+
+
+    <!-- <img [src]="'../../assets/images/quitMeeting.jpeg'" alt="" (click)="quitMeeting()" class="icon"> -->
+
+    <span [matBadge]="activeParticipantsList.length" matBadgePosition="after" matBadgeColor="accent">
+
+    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+      <img src="../../assets/images/users.svg" alt="">
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item *ngFor="let user of activeParticipantsList; let i = index">
+        <img [src]="'../../assets/images/microphone.svg'" *ngIf="user.isMuted==false || user.isMuted=='false'" alt="" (click)="degradeUserRoleAndToggleAudio(i)" class="icon">
+        <img [src]="'../../assets/images/mute.svg'" *ngIf="user.isMuted==true || user.isMuted=='true'" alt="" (click)="upgradeUserRoleAndToggleAudio(i)" class="icon">
+        <!-- <img [src]="'../../assets/images/hand-activated.jpeg'" *ngIf="user.isHandRaised==true || user.isHandRaised=='true'" alt="" (click)="lowerUserHand(user._id)" class="icon"> -->
+        &nbsp;<span>{{user.name}}</span> &nbsp;
+    <span class="material-icons hand-up" *ngIf="user.isHandRaised==true " alt="" (click)="lowerUserHand(user._id)" style="font-size: 24px;color: #f5d120;">
+            pan_tool
+        </span>
+    </button>
+
+    </mat-menu>
+
+    </span>
+    <span class="timer-container">
+    <img src="../../assets/images/timer.svg" alt="">
+    <p class="timer">{{transform(time)}}</p>
+  </span>
+</mat-toolbar>
+<div class="live-class-content">
+    <div class="center" *ngIf="!started">
+        <button mat-flat-button color="accent" (click)="startClass()" *ngIf="isMentor; else notMentor">Start class</button>
+        <ng-template #notMentor>
+            <button *ngIf="isCallStarted" mat-flat-button color="accent" (click)="startClass()">Join class</button>
+        </ng-template>
+    </div>
+    <div [hidden]="!screenloaded" class="camera" ngDraggable>
+        <video autoplay muted playsinline #localVideo></video>
+    </div>
+    <div class="live-class" [hidden]="!started">
+        <mat-spinner color="warn" style="left: 50%;position: absolute;
+                        top: 50%;color:white" diameter="60" *ngIf="!screenloaded"></mat-spinner>
+        <div class="video" #videoContainer style="position:relative !important" [hidden]="!screenloaded">
+            <img src="../../assets/images/live_status.png" class="live">
+            <span class="material-icons full-screen" (click)="openFullscreen()">
+                fullscreen
+                </span>
+            <video autoplay muted playsinline #remoteVideo class="remote-video">
+            </video>
+
+            <img #image src="../../assets/images/watermark.png" style="display: none;">
+        </div>
+
+        <div [hidden]="!screenloaded" class="chat">
+            <div class="divs" (click)="chatDiv('private')" [ngClass]="{'d_1_G' : (togglePrivateChat && !isNotes), 'd_1_R':(!togglePrivateChat && !isNotes)}">
+                <span matBadge="N" matBadgeColor="warn" *ngIf="privateNotifier">
+                    Private Chat
+                </span>
+                <span *ngIf="!privateNotifier">
+                    Private Chat
+                </span>
+                <!-- <span class="divs-toggle-span" *ngIf="togglePrivateChat">
+                    ON
+                </span>
+                <span class="divs-toggle-span" *ngIf="!togglePrivateChat">
+                    OFF
+                </span> -->
+            </div>
+            <div class="divs" (click)="chatDiv('public')" [ngClass]="{'d_2_G' : (!togglePrivateChat && !isNotes), 'd_2_R': (togglePrivateChat && !isNotes)}">
+                <span matBadge="N" matBadgeColor="warn" *ngIf="publicNotifier">
+                    Public Chat
+                </span>
+                <span *ngIf="!publicNotifier">
+                    Public Chat
+                </span>
+
+
+
+            </div>
+            <div class="divs" (click)="openNotes()" [ngClass]="{'d_3_G' : isNotes, 'd_3_R': !isNotes,'disabled':!showNotes}">
+                <span *ngIf="showNotes">
+
+                    Notes
+                </span>
+            </div>
+            <mat-spinner *ngIf="userList && privateUsers.length==0" style="left: 120px;
+            top: 120px;" diameter="40"></mat-spinner>
+            <div *ngIf="userList" class="user-list">
+                <p class="user-lists" *ngFor="let user of privateUsers;let i = index" (click)="createUserRoom(i)">
+                    {{user.first_name}}
+                </p>
+            </div>
+            <div class="notes-area" *ngIf="isNotes">
+                <angular-editor [config]="editorConfig" [placeholder]="'Enter text here...'" [(ngModel)]="noteHtmlContent"></angular-editor>
+                <button style="width: 100%;" type="button" (click)="autoSaveNotes()" mat-flat-button color="primary">Save</button>
+            </div>
+            <div *ngIf="!userList &&  !togglePrivateChat && !isNotes" class="chat-box">
+                <div #scroll class="message_history" infiniteScroll [infiniteScrollUpDistance]="2" [infiniteScrollThrottle]="150" (scrolledUp)="onScroll()" [scrollWindow]="false">
+                    <mat-spinner *ngIf="chat_spinner" style="left: 120px;
+                        top: 120px;" diameter="40"></mat-spinner>
+                    <li class="message" *ngFor="let message of Messages">
+                        <div *ngIf="
+                          message.sender._id !== yuweeUserData._id;
+                          then incoming_msg;
+                          else outgoing_msg
+                        "></div>
+                        <ng-template #incoming_msg>
+                            <div class="incoming_msg">
+
+                                <div class="received_msg">
+                                    <div class="received_withd_msg">
+
+                                        <span class="msg_time_l">{{stringToDate(message.dateOfCreation)}}</span>
+                                        <span class="msg_user_l">{{message.sender.name}}</span>
+
+                                        <div class="msg_msg_l">{{ message.message }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-template>
+                        <ng-template #outgoing_msg>
+                            <div class="outgoing_msg">
+                                <div class="sent_msg">
+                                    <div>
+                                        <span class="msg_time_l">{{stringToDate(message.dateOfCreation)}}</span>
+                                        <span class="msg_user_l">{{message.sender.name}}</span>
+
+                                        <div class="msg_msg_l">{{ message.message }}</div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </ng-template>
+                    </li>
+                    <div id="destination"></div>
+
+                </div>
+
+
+                <form class="bottom" (keydown)="sendMessageOnEnter($event)">
+
+                    <!-- <input type="text" class="write_msg" placeholder="Type a message" name="newMessage" [(ngModel)]="newMessage" /> -->
+                    <textarea (keydown.enter)="onKeydown($event)" class="input" id="input" name="msg" [(ngModel)]="newMessage"></textarea>
+
+                    <button class="send" type="button" (click)="sendMessage()">
+                            <span class="material-icons">
+                                send
+                            </span>
+                    </button>
+
+                </form>
+                <!-- <form>
+                    <span class="write">
+
+                        <input type="text" class="write_msg" placeholder="Type a message" name="newMessage" [(ngModel)]="newMessage" />
+                    </span>
+
+                    <span class="type_msg">
+
+
+                        <button class="msg_send_btn" type="button" (keydown.enter)="sendMessage()">
+                            <span class="material-icons">
+                                send
+                                </span>
+                    </button>
+                    </span>
+                </form> -->
+
+
+
+            </div>
+            <div *ngIf="!userList && togglePrivateChat && !isNotes" class="chat-box">
+                <div #scroll class="message_history" infiniteScroll [infiniteScrollUpDistance]="2" [infiniteScrollThrottle]="150" (scrolledUp)="onScroll()" [scrollWindow]="false">
+                    <mat-spinner *ngIf="chat_spinner" style="left: 120px;
+                        top: 120px;" diameter="40"></mat-spinner>
+                    <li class="message" *ngFor="let message of privateMessages">
+                        <div *ngIf="
+                          message.sender._id !== yuweeUserData._id;
+                          then incoming_msg;
+                          else outgoing_msg
+                        "></div>
+                        <ng-template #incoming_msg>
+                            <div class="incoming_msg">
+
+                                <div class="received_msg">
+                                    <div class="received_withd_msg">
+
+                                        <span class="msg_time_l">{{stringToDate(message.dateOfCreation)}}</span>
+                                        <span class="msg_user_l">{{message.sender.name}}</span>
+
+                                        <div class="msg_msg_l">{{ message.message }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-template>
+                        <ng-template #outgoing_msg>
+                            <div class="outgoing_msg">
+                                <div class="sent_msg">
+                                    <div>
+                                        <span class="msg_time_l">{{stringToDate(message.dateOfCreation)}}</span>
+                                        <span class="msg_user_l">{{message.sender.name}}</span>
+
+                                        <div class="msg_msg_l">{{ message.message }}</div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </ng-template>
+                    </li>
+                    <div id="destination"></div>
+
+                </div>
+
+
+                <form class="bottom" (keydown)="sendMessageOnEnter($event)">
+
+                    <!-- <input type="text" class="write_msg" placeholder="Type a message" name="newMessage" [(ngModel)]="newMessage" /> -->
+                    <textarea (keydown.enter)="onKeydown($event)" class="input" id="input" name="msg" [(ngModel)]="newMessage"></textarea>
+
+                    <button class="send" type="button" (click)="sendMessage()">
+                            <span class="material-icons">
+                                send
+                            </span>
+                    </button>
+
+                </form>
+                <!-- <form>
+                    <span class="write">
+
+                        <input type="text" class="write_msg" placeholder="Type a message" name="newMessage" [(ngModel)]="newMessage" />
+                    </span>
+
+                    <span class="type_msg">
+
+
+                        <button class="msg_send_btn" type="button" (keydown.enter)="sendMessage()">
+                            <span class="material-icons">
+                                send
+                                </span>
+                    </button>
+                    </span>
+                </form> -->
+
+
+
+            </div>
+        </div>
+
+        <div #otherStreams></div>
+    </div>
+    <div style="margin:20px;text-align:center" [hidden]="started">
+        <img src="../../assets/images/ad.png">
+    </div>
+    <div class="online-users" [hidden]="started">
+        <div class="waiting-users">
+            <p class="waiting-head">Waiting users</p>
+            <div style="    display: grid;grid-template-columns: repeat(5,1fr);">
+
+                <div class="wait-card" *ngFor="let user of onlineUsers; let i = index">
+                    <img [src]="user.avatar" alt="John" style="width: 85%;margin-top: 5px;border-radius: 50%;" onerror="this.src='../../assets/images/user.svg';" alt="...">
+                    <h4>{{user.first_name}} {{user.last_name}}</h4>
+                </div>
+            </div>
+        </div>
+        <div class="entered-users">
+            <p class="waiting-head">Joined users</p>
+            <div style="    display: grid;grid-template-columns: repeat(5,1fr);">
+
+                <div class="join-card" *ngFor="let user of Joinedusers; let i = index">
+                    <img [src]="user.avatar" alt="John" style="width: 85%;margin-top: 5px;border-radius: 50%;" onerror="this.src='../../assets/images/user.svg';" alt="...">
+                    <h4>{{user.first_name}} {{user.last_name}}</h4>
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+    <!-- <div class="online-div">
+        <div class="container" style="color: white;" *ngFor="let user of onlineUsers; let i = index">
+            <div class="div">
+
+                <img alt="" [src]="'api/'+ user.avatar" class="right" style="width:100%;border-radius: 50%;">
+            </div>
+            <p style="color: #f3eeee;
+            font-size: 12px;
+            overflow-wrap: break-word;
+            font-weight: bold;
+            margin: 10px;
+            font-family: cursive;"> {{user.username}}</p>
+        </div>
+    </div> -->
+
+    <canvas #canvas width="1024" height="768" style="display: none;"></canvas>
+</div>

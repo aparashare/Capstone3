@@ -1,0 +1,6 @@
+<h1>Payment Options</h1>
+<div>
+    <p style="color:green" *ngIf="success">Payment successful</p>
+    <button *ngIf="!success" (click)="openRazorpayCheckout()">Pay with Razorpay</button>
+    <button (click)="onNoClick()">CLose</button>
+</div>

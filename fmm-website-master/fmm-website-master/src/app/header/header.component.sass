@@ -1,0 +1,46 @@
+.toolbar-content
+  width: 80%
+  margin: 0 auto
+  display: flex
+  flex-direction: row
+  align-items: center
+  img
+    height: 41px
+  .profile-image
+    width: 41px
+    height: 41px
+    border-radius: 100%
+    object-fit: cover
+
+.additional-menu
+  width: calc(100% - 41px)
+  display: inline-flex
+  flex-direction: row
+  align-items: center
+  justify-content: space-between
+  .search
+    margin-left: 100px
+  .action-button
+    height: 47px
+    max-width: 190px
+.icons
+  img
+    height: 25px
+    width: 25px
+    margin: 0 15px
+  .profile-image
+    img
+      width: 57px
+      height: 57px
+      border-radius: 100%
+
+.mobile
+  visibility: hidden
+.desktop
+  visibility: visible
+
+@media screen and (max-width: 1000px)
+  .desktop
+    visibility: hidden
+  .mobile
+    visibility: visible

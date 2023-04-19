@@ -1,0 +1,127 @@
+<form action="" class="container"  *ngIf="mentorForm"
+      [formGroup]="mentorForm" (keydown.enter)="$event.target.tagName == 'TEXTAREA'">
+  <h1 class="full-length">Mentor Registration Form</h1>
+  <ng-container *ngIf="firstPage; else secondPage">
+    <app-personal-information [status]="true"
+      class="full-length"></app-personal-information>
+    <div class="table">
+      <div class="col" *ngIf="expertise">
+        <label>Expertise<sup>*</sup></label>
+        <mat-form-field appearance="fill">
+          <input type="text" matInput formControlName="expertise"
+                 placeholder="Expertise"
+                 [matAutocomplete]="auto">
+          <mat-error *ngIf="mentorForm.controls.expertise.errors?.required &&
+                            mentorForm.controls.expertise.invalid">
+              {{ REQUIRED_FIELD }}
+          </mat-error>
+        </mat-form-field>
+
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option *ngFor="let option of expertise" [value]="option.title">{{option.title}}</mat-option>
+        </mat-autocomplete>
+      </div>
+      <div class="col">
+        <label>Years of Experience<sup>*</sup></label>
+        <mat-form-field appearance="fill">
+          <input type="number" matInput placeholder="Years of Experience" formControlName="years_of_experience" [min]="1">
+          <mat-error *ngIf="mentorForm.controls.years_of_experience.errors?.required &&
+                          mentorForm.controls.years_of_experience.invalid">
+              {{ REQUIRED_FIELD }}
+          </mat-error>
+          <mat-error *ngIf="mentorForm.controls.years_of_experience.errors?.min &&
+                          mentorForm.controls.years_of_experience.invalid">
+              {{ INVALID_FIELD }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <label for="about" class="full-length">Tell us about your expertise<sup>*</sup></label>
+    <mat-form-field appearance="fill" class="full-length">
+      <textarea id="about" matInput required formControlName="about_expertise"></textarea>
+      <mat-hint>We would like to know more about your expertise.</mat-hint>
+      <mat-error *ngIf="mentorForm.controls.about_expertise.errors?.required &&
+                          mentorForm.controls.about_expertise.invalid">
+              {{ REQUIRED_FIELD }}
+          </mat-error>
+    </mat-form-field>
+    <div class="full-length education-grid">
+      <label for="tags" class="full-length margin-top">Tags<sup>*</sup></label>
+      <div class="tags full-length">
+        <div class="tag" *ngFor="let tag of tags">
+          <p>{{tag}}
+            <img src="../../assets/images/cross.png"
+                 (click)="removeTag(tag)"
+                 alt="" class="delete-tag">
+          </p>
+        </div>
+      </div>
+      <mat-form-field appearance="fill" class="full-length">
+        <input id="tags" matInput #tag formControlName="tags"
+               (keydown.enter)="addTag(tag.value, tag)"
+               (click)="tagsValidator(mentorForm.controls.tabs)"
+               placeholder="+ Add a tag and press Enter">
+        <mat-error *ngIf="mentorForm.controls.tags.errors?.required && 
+                          mentorForm.controls.tags.invalid">
+            {{ REQUIRED_TAGS_FIELD }}
+        </mat-error>
+      </mat-form-field>
+      <h2 class="full-length title">Educational information</h2>
+
+      <ng-container formArrayName="education">
+        <ng-container *ngFor="let edu of education().controls; let i=index" [formGroupName]="i">
+          <label class="full-length">School/Institution name<sup>*</sup></label>
+          <mat-form-field appearance="fill" class="full-length">
+            <input id="school_name" matInput placeholder="School Name" formControlName="school_name">
+            <mat-error *ngIf="education().controls[i].invalid">
+              {{REQUIRED_FIELD}}
+            </mat-error>
+          </mat-form-field>
+          <label>First year of school<sup>*</sup></label>
+          <label>Last year of school<sup>*</sup></label>
+          <mat-form-field appearance="fill">
+              <mat-select placeholder="First year" formControlName="school_start" [value]="education().controls[i].value.school_start">
+                <mat-option *ngFor="let year of years" [value]="year">{{year}}</mat-option>
+              </mat-select>
+              <mat-error *ngIf="education().controls[i].invalid">
+                {{REQUIRED_FIELD}}
+              </mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+              <mat-select placeholder="Last year" formControlName="school_end" [value]="education().controls[i].value.school_end">
+                <mat-option *ngFor="let year of years" [value]="year">{{year}}</mat-option>
+              </mat-select>
+              <mat-error *ngIf="education().controls[i].invalid">
+                {{REQUIRED_FIELD}}
+              </mat-error>
+          </mat-form-field>
+  <!--        <img class="remove" (click)="removeEducation(i)"-->
+  <!--             src="../../assets/images/cross.png" alt="Remove">-->
+        </ng-container>
+      </ng-container>
+      <mat-hint (click)="addEducation()">+ Add more education</mat-hint>
+
+      <label class="full-length margin-top">Achievements & Awards</label>
+      <ng-container formArrayName="achievements_array" class="full-length">
+        <ng-container *ngFor="let achievement of achievements_array().controls; let i=index" [formGroupName]="i">
+          <mat-form-field appearance="fill" class="full-length">
+            <input matInput type="text" formControlName="ach" placeholder="Name your Achievement">
+            <mat-error *ngIf="mentorForm.controls.achievements_array.invalid">
+              {{ REQUIRED_FIELD }}
+          </mat-error>
+          </mat-form-field>
+  <!--        <img class="remove" (click)="removeAchievement(i)"-->
+  <!--             src="../../assets/images/cross.png" alt="Remove">-->
+        </ng-container>
+      </ng-container>
+        <mat-hint (click)="addAchievement()">+ Add more achievements</mat-hint>
+    </div>
+    <div class="register-btn full-length">
+      <button type="submit" mat-flat-button color="accent"
+              (click)="submitForm()">Next</button>
+    </div>
+  </ng-container>
+  <ng-template #secondPage>
+    <app-mentor-schedule [user]="user"></app-mentor-schedule>
+  </ng-template>
+</form>

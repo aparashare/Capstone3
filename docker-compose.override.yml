@@ -1,0 +1,52 @@
+# Building the entire project
+
+version: '3.7'
+
+services:
+  adminer:
+    container_name: fmm_api_adminer
+    image: adminer:latest
+    networks:
+      - database_network
+    ports:
+      - "8000:8080"
+
+  database:
+    container_name: fmm_api_database
+    env_file:
+      - config/docker/database.env
+    image: postgres:11-alpine
+    networks:
+      - database_network
+    ports:
+      - "5432:5432"
+    volumes:
+      - database_volume:/var/lib/postgresql/data
+
+  djangoapp:
+    build: .
+    command: sh -c "./wait-for-it.sh --timeout=10 database:5432 -- ./api_entrypoint.sh"
+    container_name: fmm_api_djangoapp
+    depends_on:
+      - database
+    env_file:
+      - config/docker/djangoapp.env
+    networks:
+      - database_network
+    volumes:
+      - .:/opt/djangoapp/src
+
+  nginx:
+    container_name: fmm_api_nginx
+    ports:
+      - "80:8000"
+    volumes:
+      - ./nginx.conf.d:/etc/nginx/conf.d
+
+networks:
+  database_network:
+    name: fmm_api_database_network
+    driver: bridge
+
+volumes:
+  database_volume:

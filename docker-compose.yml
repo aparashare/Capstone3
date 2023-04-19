@@ -1,0 +1,32 @@
+# Responsible for running the project
+# Support of docker-compose.override.yml
+
+version: '3.7'
+
+services:
+
+  djangoapp:
+    networks:
+      - nginx_network
+    volumes:
+      - static_volume:/opt/djangoapp/src/static
+      - media_volume:/opt/djangoapp/src/media
+
+  nginx:
+    image: nginx:1.16.0-alpine
+    depends_on:
+      - djangoapp
+    networks:
+      - nginx_network
+    volumes:
+      - static_volume:/opt/djangoapp/src/static
+      - media_volume:/opt/djangoapp/src/media
+
+networks:
+  nginx_network:
+    name: fmm_api_nginx_network
+    driver: bridge
+
+volumes:
+  static_volume:
+  media_volume:

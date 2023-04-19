@@ -1,0 +1,13 @@
+<form class="review-content" [formGroup]="review">
+  <h1 mat-dialog-title>How was your class?</h1>
+  <div mat-dialog-content>
+    <p>Please rate this class to help us make FindMeMentor better</p>
+  </div>
+  <mat-form-field appearance="fill">
+    <textarea matInput formControlName="content"></textarea>
+  </mat-form-field>
+  <app-star-rating (ratingClick)="onStarChange($event)"></app-star-rating>
+  <div mat-dialog-actions>
+    <button mat-flat-button (click)="onNoClick()" color="accent">Submit</button>
+  </div>
+</form>

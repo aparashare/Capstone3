@@ -1,0 +1,43 @@
+<div class="report-container">
+  <div class="row">
+    <h2>Lifetime report</h2>
+    <mat-form-field appearance="fill">
+      <mat-select value="classes">
+        <mat-option value="classes">All classes</mat-option>
+        <mat-option value="mentorship">Mentorship</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div class="col-3">
+    <p>Total revenue</p>
+    <p>Total enrollments</p>
+    <p>Instructor rating</p>
+    <h2>$2,456.29</h2>
+    <h2>345</h2>
+    <h2>4.12</h2>
+    <p>$545.27 this month</p>
+    <p>210 this month</p>
+    <p>8 this month</p>
+  </div>
+  <mat-divider></mat-divider>
+  <mat-form-field appearance="fill" class="month row">
+    <mat-select value="12">
+      <mat-option value="12">12 month</mat-option>
+      <mat-option value="6">6 month</mat-option>
+      <mat-option value="3">3 month</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <div class="flex">
+    <div class="flex-item">
+      <div style="display: block;">
+        <canvas baseChart width="400" height="400"
+                [datasets]="lineChartData"
+                [labels]="lineChartLabels"
+                [options]="lineChartOptions"
+                [colors]="lineChartColors"
+                [legend]="lineChartLegend"
+                [chartType]="lineChartType"></canvas>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,35 @@
+<div class="settings-content">
+  <h3 class="settings-title">Privacy settings</h3>
+  <div class="block">
+    <h3>Type of profile</h3>
+    <mat-radio-button value="public">Public</mat-radio-button>
+    <p class="subtitle">*Any user who hasn't logged into <span class="highlighted">findmementor.com</span> website can view the profile</p>
+    <mat-radio-button value="restricted">Restricted</mat-radio-button>
+    <p class="subtitle">Any user who has logged into <span class="highlighted">findmementor.com</span> can only see the profile</p>
+    <button mat-flat-button color="accent" class="save-btn">Save</button>
+  </div>
+  <div class="block">
+    <h3>Password Change</h3>
+    <p>Write down your current password</p>
+    <mat-form-field appearance="fill">
+      <input matInput type="text" placeholder="Current password">
+    </mat-form-field>
+    <p>Write down your new password</p>
+    <mat-form-field appearance="fill">
+      <input matInput type="text" placeholder="New password">
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <input matInput type="text" placeholder="Repeat the new password">
+    </mat-form-field>
+    <button mat-flat-button color="accent" class="save-btn">Save</button>
+  </div>
+  <div class="block">
+    <h3>Recovery Email</h3>
+    <p>Write down your recovery email</p>
+    <mat-form-field appearance="fill">
+      <input matInput type="email" placeholder="Recovery email">
+    </mat-form-field>
+    <button mat-flat-button color="accent" class="save-btn">Save</button>
+  </div>
+
+</div>

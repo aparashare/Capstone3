@@ -1,0 +1,83 @@
+upstream app_server {
+  server djangoapp:8000 fail_timeout=0;
+}
+
+upstream app_angular {
+  server angularapp:4200 fail_timeout=0;
+}
+
+server {
+  listen 80;
+  server_name testing.findmementor.com;
+
+  server_tokens off;
+
+  location /media  {
+    alias /opt/djangoapp/src/media/;
+  }
+
+  location /static {
+    autoindex on;
+    alias /opt/djangoapp/src/static/;
+  }
+
+  location / {
+    try_files $uri @proxy_to_angular;
+  }
+
+  location @proxy_to_angular {
+    proxy_redirect off;
+    proxy_set_header Host $host;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Host $server_name;
+    proxy_pass http://app_angular;
+  }
+
+  location /admin/ {
+    proxy_redirect off;
+    proxy_set_header Host $host;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Host $server_name;
+    proxy_pass http://app_server/admin/;
+  }
+
+  location /v0/ {
+    allow 172.19.0.1/16;
+    deny all;
+    proxy_redirect off;
+    proxy_set_header Host $host;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Host $server_name;
+    proxy_pass http://app_server/v0/;
+  }
+
+  location /o/ {
+    allow 172.19.0.1/16;
+    deny all;
+    proxy_redirect off;
+    proxy_set_header Host $host;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Host $server_name;
+    proxy_pass http://app_server/o/;
+  }
+
+  location /swagger/ {
+    proxy_redirect off;
+    proxy_set_header Host $host;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Host $server_name;
+    proxy_pass http://app_server/swagger/;
+  }
+
+   location /redoc/ {
+    proxy_redirect off;
+    proxy_set_header Host $host;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Host $server_name;
+    proxy_pass http://app_server/redoc/;
+  }
+
+
+    client_max_body_size 128m;
+}
+

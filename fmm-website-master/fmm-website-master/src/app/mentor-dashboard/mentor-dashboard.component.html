@@ -1,0 +1,96 @@
+<div class="content-dashboard">
+
+    <h1>Namaste, {{user.first_name}} {{user.last_name}}!</h1>
+
+    <div class="col-2">
+        <div class="earnings-container">
+            <div class="row">
+                <h2>My Earnings</h2>
+                <button mat-button color="accent" routerLink="/lifetime-report">See lifetime report</button>
+            </div>
+            <div class="earnings">
+                <div class="this-month" *ngIf="revenue">
+                    This month
+                    <span class="bold"><br>{{revenue.workshops + revenue.appointments}}$</span>
+                    <!--          <span class="teal">-->
+                    <!--            <span class="bold">33.7%</span>-->
+                    <!--            <br><span class="stats">Courses</span>-->
+                    <!--          </span>-->
+                    <span class="pink">
+            <span class="bold percents">{{(revenue.workshops + revenue.appointments) * revenue.workshops / 100}}</span>
+                    <br><span class="stats">Classes</span>
+                    </span>
+                    <span class="blue">
+            <span class="bold percents">{{(revenue.workshops + revenue.appointments) * revenue.appointments / 100}}</span>
+                    <br><span class="stats">Mentorship</span>
+                    </span>
+                </div>
+                <div style="display: block" class="chart">
+                    <canvas baseChart [data]="doughnutChartData" [labels]="false" [colors]="chartColors" [chartType]="doughnutChartType">
+                    </canvas>
+                </div>
+            </div>
+        </div>
+        <div class="classes-container">
+            <div class="row">
+                <h2>My Upcoming Classes</h2>
+                <button mat-button color="accent">All my upcoming classes</button>
+            </div>
+            <div class="classes">
+                <div class="block" *ngFor="let w of workshops" [routerLink]="'../../class/' + w.id + '/live'">
+                    <p class="time">{{w.start_at | date : "dd MMM hh:mm a"}}</p>
+                    <p class="title">{{w.title}}</p>
+                    <p class="stats"><span class="bold">{{w.subscribed}}</span> Students enrolled</p>
+                </div>
+                <div class="block add" routerLink="../../class/registration">
+                    <img src="../../assets/images/plus.png" alt="">
+                    <p class="accent" routerLink="../../class/registration">Add Class</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="appointments-container">
+        <div class="row">
+            <h2>My Upcoming Appointments</h2>
+            <button mat-button color="accent">View all appointments</button>
+        </div>
+        <ng-template #noAppointments>No appointments at the moment</ng-template>
+        <div class="blocks" *ngIf="appointments; else noAppointments">
+            <div class="block" *ngFor="let a of appointments">
+                <div class="tag">
+                    <img src="../../assets/images/check.png" alt="check"> Student booked
+                </div>
+                <p class="time">{{a.appointment.start_at | date : "dd MMM hh:mm a"}}</p>
+                <p class="title">{{a.appointment.title}}</p>
+                <div class="user">
+                    <!--          <ng-container *ngIf="user.avatar; else defaultAvatar">-->
+                    <!--            <img [src]="'/api/' + user.avatar" alt="User" class="mentor-avatar">-->
+                    <!--          </ng-container>-->
+                    <!--          <ng-template #defaultAvatar>-->
+                    <img src="../../assets/images/user.svg" alt="User" class="mentor-avatar">
+                    <!--          </ng-template>-->
+                    <p class="name">Mark</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="assignments-container">
+        <div class="row">
+            <h2>Upload Assignment</h2>
+            <button mat-flat-button class="accent view-all">View all assignments</button>
+        </div>
+        <div class="blocks">
+            <div class="block sm">
+                <div class="row">
+                    <p class="title">Biology-1</p>
+                    <img src="../../assets/images/download.png" alt="download" class="right">
+                </div>
+                <p class="time">till 22th of APR</p>
+                <button mat-flat-button color="accent" class="send-btn">Send</button>
+            </div>
+        </div>
+    </div>
+
+</div>

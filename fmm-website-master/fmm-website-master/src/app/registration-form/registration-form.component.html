@@ -1,0 +1,95 @@
+<form action="" class="container table" [formGroup]="menteeForm" *ngIf="menteeForm">
+    <h1 class="full-length">Mentee Registration Form</h1>
+    <app-personal-information #personalInformationComponent [status]="false" (infoChange)="doSomething($event)" class="full-length"></app-personal-information>
+    <label style="display: none;" for="linkedin" class="full-length">Linkedin</label>
+    <div class="full-length">
+        <mat-form-field style="display: none;" appearance="fill" class="full-length-input">
+            <input id="linkedin" matInput placeholder="Link to your LinkedIn" formControlName="linkedin">
+            <mat-error *ngIf="menteeForm.controls.linkedin.errors?.pattern &&
+                 menteeForm.controls.linkedin.invalid">
+                {{ INVALID_URL_FIELD }}
+            </mat-error>
+        </mat-form-field>
+        <img style="display: none;" class="social-icon" src="../../assets/images/linkedin.svg" alt="">
+    </div>
+    <label for="facebook" style="display: none;" class="full-length">Facebook</label>
+    <div class="full-length" style="display: none;">
+        <mat-form-field appearance="fill" class="full-length-input">
+            <input id="facebook" matInput placeholder="Link to your Facebook" formControlName="facebook">
+            <mat-error *ngIf="menteeForm.controls.facebook.errors?.pattern &&
+                 menteeForm.controls.facebook.invalid">
+                {{ INVALID_URL_FIELD }}
+            </mat-error>
+        </mat-form-field>
+        <img class="social-icon" src="../../assets/images/facebook.svg" alt="">
+    </div>
+    <label style="display: none;" for="about" class="full-length">Tell a little bit about you<sup>*</sup></label>
+    <mat-form-field style="display: none;" appearance="fill" class="full-length">
+        <textarea id="about" matInput formControlName="about"></textarea>
+        <mat-hint>We would like to know more about you.</mat-hint>
+        <mat-error *ngIf="menteeForm.controls.about.errors?.required &&
+                 menteeForm.controls.about.invalid">
+            {{ REQUIRED_FIELD }}
+        </mat-error>
+    </mat-form-field>
+    <h2 style="display: none;" class="full-length title">Educational information</h2>
+    <div style="display: none;" class="full-length education-grid">
+        <label for="school_name" class="full-length">School/Institution name<sup>*</sup></label>
+        <mat-form-field appearance="fill" class="full-length">
+            <input id="school_name" matInput placeholder="School Name" formControlName="school_name">
+            <mat-error *ngIf="menteeForm.controls.school_name.errors?.required &&
+                   menteeForm.controls.school_name.invalid">
+                {{ REQUIRED_FIELD }}
+            </mat-error>
+        </mat-form-field>
+        <div class="col">
+            <label>First year of school<sup>*</sup></label>
+            <mat-form-field appearance="fill">
+                <mat-select placeholder="First year" formControlName="school_start">
+                    <mat-option *ngFor="let year of years" [value]="year">{{year}}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="menteeForm.controls.school_start.errors?.required &&
+                     menteeForm.controls.school_start.invalid">
+                    {{ REQUIRED_FIELD }}
+                </mat-error>
+            </mat-form-field>
+        </div>
+        <div class="col">
+            <label>Last year of school<sup>*</sup></label>
+            <mat-form-field appearance="fill">
+                <mat-select placeholder="Last year" formControlName="school_end">
+                    <mat-option [value]="currentYear">Studying at the moment</mat-option>
+                    <mat-option *ngFor="let year of years" [value]="year">{{year}}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="menteeForm.controls.school_end.errors?.required &&
+                     menteeForm.controls.school_end.invalid">
+                    {{ REQUIRED_FIELD }}
+                </mat-error>
+            </mat-form-field>
+        </div>
+        <div class="col profession">
+            <label for="profession" class="full-length">Current profession<sup>*</sup></label>
+            <mat-form-field appearance="fill">
+                <input id="profession" matInput placeholder="Profession" formControlName="profession">
+                <mat-error *ngIf="menteeForm.controls.profession.errors?.required &&
+                     menteeForm.controls.profession.invalid">
+                    {{ REQUIRED_FIELD }}
+                </mat-error>
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="col" style="display: none;">
+        <label for="interests" class="full-length">What would you like to study?<sup>*</sup></label>
+        <mat-form-field appearance="fill" class="full-length">
+            <textarea id="interests" formControlName="preferences" matInput></textarea>
+            <mat-hint>Tell us what would you like to study on our platform.</mat-hint>
+            <mat-error *ngIf="menteeForm.controls.preferences.errors?.required &&
+                     menteeForm.controls.preferences.invalid">
+                {{ REQUIRED_FIELD }}
+            </mat-error>
+        </mat-form-field>
+    </div>
+    <div class="register-btn full-length">
+        <button mat-flat-button color="accent" (click)="submitForm()">Submit</button>
+    </div>
+</form>

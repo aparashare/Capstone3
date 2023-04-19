@@ -1,0 +1,331 @@
+.dark-blob
+  position: absolute
+  top: 0
+  right: 0
+  z-index: -99
+
+.violet-1, .violet-3, .violet-5
+  position: absolute
+  right: 0
+  z-index: -100
+
+.violet-2, .violet-4
+  position: absolute
+  left: 0
+  z-index: -100
+
+header
+  display: flex
+  flex-direction: row
+  justify-content: space-around
+  align-items: center
+  height: 100px
+  width: 80%
+  margin: 0 auto
+  mat-icon
+    position: relative
+    top: 7px
+  .mat-form-field
+    align-self: flex-end
+    margin-left: auto
+    .mat-form-field-flex
+      border-bottom: 2px solid #000000
+  .mat-form-field-appearance-fill .mat-form-field-flex
+    background-color: #ffffff
+    border-bottom: 2px solid #000000
+  .signin-btn
+    width: 128px
+    height: 47px
+    background: #D19733
+    border-radius: 4px
+  .logo-img
+    height: 41px
+  .register-btn
+    margin-left: auto
+    width: 128px
+    height: 47px
+
+.responsive-img
+  width: 80%
+  margin: 0 auto
+
+.content
+  width: 80%
+  margin: 0 auto
+
+.col-2
+  display: grid
+  grid-template-columns: 1fr 1fr
+  width: 80%
+  margin: 60px auto
+
+.view-all
+  width: 228px
+  height: 47px
+  margin-left: auto
+
+.registration-form
+  display: flex
+  flex-direction: column
+  color: #D19733
+  background: #30323D
+  border-radius: 10px
+  width: 370px
+  padding: 41px
+  justify-self: center
+  align-self: center
+  ::ng-deep.mat-form-field-outline
+    background-color: #ffffff !important
+    border-radius: 5px !important
+
+.google-play
+  align-self: center
+  h3
+    font-weight: bold
+    font-size: 30px
+    line-height: 135.9%
+    color: #31313E
+  p
+    font-weight: normal
+    font-size: 18px
+    line-height: 135.9%
+    color: #31313E
+
+.class
+  width: 100%
+  background: #FEFEFE
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.07)
+  border-radius: 4px
+  margin-bottom: 10px
+  .class-image
+    width: 100%
+    height: 300px
+    object-fit: cover
+    border-radius: 4px 4px 0 0
+  .price
+    position: relative
+    top: -45px
+    float: right
+    width: 112px
+    height: 45px
+    background: #6C6CEE
+    border-radius: 10px 0 0 0
+    font-weight: bold
+    font-size: 20px
+    line-height: 30px
+    text-align: center
+    color: #FFFFFF
+  .classTitle 
+    font-size: 15px 
+    font-weight: bold 
+    margin-left: 23px 
+  .user
+    display: flex
+    flex-direction: row
+    margin-left: 18px
+    margin-top: -10px
+    img
+      width: 34px
+      height: 34px
+      align-self: center
+      margin-right: 10px
+      border-radius: 100%
+      object-fit: cover
+  .subject 
+    font-size: 15px
+    margin-left: 23px
+    margin-top: -12px      
+  .col-3
+    width: 90%
+    margin: 14px auto
+    display: grid
+    grid-template-columns: 20px 1fr 1fr
+    grid-column-gap: 10px
+    .register-btn
+      margin-left: auto
+      grid-row: 1/-1
+      grid-column: 3
+    p
+      margin: 0
+  h3
+    font-weight: bold
+    font-size: 22px
+    width: 94%
+    vertical-align: top
+    line-height: 30px
+    color: #30323D
+    height: 95px
+    margin-left: 15px
+
+//.course
+//  width: 380px
+//  height: 444px
+//  background: #FEFEFE
+//  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.07)
+//  border-radius: 4px
+
+.mentors, .classes
+  width: 80%
+  margin: 0 auto
+  display: grid
+  grid-template-columns: repeat(auto-fit, minmax(279px, 1fr))
+  grid-column-gap: 20px
+  grid-row-gap: 20px
+
+.mentor
+  width: 100%
+  height: 364px
+  background: #FEFEFE
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07)
+  border-radius: 10px
+  text-align: center
+  padding-top: 48px
+  .user-image
+    width: 158px
+    height: 158px
+    object-fit: cover
+    border-radius: 100%
+
+.description
+  justify-self: center
+  align-self: center
+
+.registration-input
+  width: 100%
+  display: flex
+  flex-direction: row
+  border: 2px solid #D19733
+  border-radius: 5px
+  height: 47px
+  ::ng-deep .mat-form-field-outline
+    border: none !important
+  ::ng-deep .mat-form-field-flex
+    position: relative
+    height: 54px
+    top: -5px
+  ::ng-deep .mat-input-element .mat-form-field-autofill-control
+    position: relative !important
+    top: -5px !important
+  button
+    height: 47px
+    margin: 0
+    width: 40%
+    border-radius: 0px
+  mat-form-field
+    margin: 0
+
+.pupils-img
+  width: 80%
+  margin: 0 auto
+
+
+.dark-section
+  margin-top: 90px
+  background: #30323D
+  padding: 90px 0
+  h2
+    color: #ffffff
+    font-weight: bold
+    font-size: 36px
+    line-height: 49px
+
+.dark-section-content
+  margin: 0 auto
+  .block
+    background: #FFFFFF
+    border-radius: 0 10px 10px 0
+    padding: 50px 20px
+  .workshop-cover
+    object-fit: cover
+    border-radius: 10px 0 0 10px
+
+.dark-section-content-main
+  display: flex
+  flex-direction: row
+
+.dark-section-content
+  width: 70%
+  .profession
+    font-weight: 600
+    font-size: 14px
+    line-height: 19px
+    text-transform: uppercase
+    color: #717171
+  .name
+    font-weight: bold
+    font-size: 24px
+    line-height: 33px
+  .profession-location
+    color: #717171
+    font-size: 18px
+    line-height: 25px
+  .testemonial
+    font-size: 18px
+    line-height: 143.19%
+  .testimonial-image
+    border-radius: 10px 0 0 10px
+    object-fit: cover
+    width: 300px
+.desktop
+  visibility: visible
+.mobile
+  visibility: hidden
+.mobile-logo
+  display: none
+
+@media screen and (max-width: 980px)
+  .dark-section-content-main
+    flex-direction: column
+    .block
+      width: 70%
+      border-radius: 0 0 10px 10px
+      margin: 0 auto
+      padding: 20px
+  .mobile-app, .registration
+    display: flex
+    flex-direction: column
+  .responsive-img
+    width: 100%
+  .dark-blob
+    display: none
+  .description
+    margin-bottom: 40px
+  .desktop
+    visibility: hidden
+  .mobile
+    visibility: visible
+  .center
+    width: 80%
+    margin: 10px auto
+    button
+      width: 100%
+  .mobile-col-1
+    display: block
+    margin: 10px auto
+  .violet-1
+    position: absolute
+    top: 0
+    left: -100
+    z-index: -99
+  .registration-form
+    width: 80%
+    margin: 0 auto
+  .logo-img
+    display: none
+  .mobile-logo
+    display: inline
+  .testimonial-image
+    width: calc(70% + 40px) !important
+    border-radius: 10px 10px 0 0 !important
+    margin: 0 auto
+
+
+.carousel-row
+  display: flex
+  flex-direction: row
+
+.btn-default
+  margin: 10px
+
+  
+

@@ -1,0 +1,119 @@
+<div class="content-dashboard" *ngIf="user">
+    <h1>Namaste, {{user.first_name}} {{user.last_name}}!</h1>
+
+    <div class="classes">
+        <div class="row">
+            <h2>My Upcoming Classes</h2>
+            <button mat-flat-button class="accent view-all" routerLink="../classes">All upcoming classes</button>
+        </div>
+        <div class="blocks" *ngIf="workshops">
+            <div class="block" *ngFor="let workshop of workshops" [routerLink]="'../class/' + workshop.workshop.id">
+                <div class="tag">
+                    <img src="../../assets/images/check.png" alt="check"> You’re enrolled
+                </div>
+                <p class="time">{{workshop.workshop.start_at.split('+')[0] | date : 'dd MMM yy hh:mm a'}}</p>
+                <p class="title">{{workshop.workshop.title}}</p>
+                <div class="user">
+                    <ng-container *ngIf="workshop.workshop.mentor.user.avatar; else defaultAvatar">
+                        <img [src]="workshop.workshop.mentor.user.avatar" alt="User" class="mentor-avatar">
+                    </ng-container>
+                    <ng-template #defaultAvatar>
+                        <img src="../../assets/images/user.svg" alt="User" class="mentor-avatar">
+                    </ng-template>
+                    <p class="name">{{workshop.workshop.mentor.user.first_name}}</p>
+                </div>
+            </div>
+            <div class="block add" routerLink="/search">
+                <img src="../../assets/images/plus.png" alt="">
+                <p class="accent">Add Class</p>
+            </div>
+            <div class="add-mobile">
+                <button mat-button>Add Class</button>
+            </div>
+            <div class="view-all-mobile">
+                <button mat-button>View all classes</button>
+            </div>
+        </div>
+    </div>
+    <div class="appointments">
+        <div class="row">
+            <h2>My Upcoming Appointments</h2>
+            <button mat-flat-button class="accent view-all">View all appointments</button>
+        </div>
+        <div class="blocks" *ngIf="appointments">
+            <div class="block" *ngFor="let a of appointments">
+                <div class="tag">
+                    <img src="../../assets/images/check.png" alt="check"> Mentor approved
+                </div>
+                <p class="time">{{a.appointment.start_at | date : 'dd MMM hh:mm a'}}</p>
+                <p class="title">{{a.appointment.title}}</p>
+                <div class="user">
+                    <ng-container *ngIf="a.appointment.mentor.user.avatar; else defaultAvatar">
+                        <img [src]="a.appointment.mentor.user.avatar" alt="User" class="mentor-avatar">
+                    </ng-container>
+                    <ng-template #defaultAvatar>
+                        <img src="../../assets/images/user.svg" alt="User" class="mentor-avatar">
+                    </ng-template>
+                    <p class="name">Mark</p>
+                </div>
+            </div>
+            <div class="block add" [routerLink]="'/search'">
+                <img src="../../assets/images/plus.png" alt="">
+                <p class="accent">Add Appointment</p>
+            </div>
+            <div class="add-mobile">
+                <button mat-button>Add Appointments</button>
+            </div>
+            <div class="view-all-mobile">
+                <button mat-button>All upcoming appointments</button>
+            </div>
+        </div>
+    </div>
+    <div class="assignments">
+        <div class="row">
+            <h2>My Assignments</h2>
+            <button mat-flat-button class="accent view-all">View all assignments</button>
+        </div>
+        <div class="blocks" *ngIf="assignments?.length > 1; else noAssignments">
+            <div class="block sm" *ngFor="let assignment of assignments">
+                <!--        <div class="tag">-->
+                <!--          <img src="../../assets/images/check.png" alt="check">-->
+                <!--          You’re enrolled-->
+                <!--        </div>-->
+                <div class="row">
+                    <p class="title">Biology-1</p>
+                    <img src="../../assets/images/download.png" alt="download" class="right">
+                </div>
+                <p class="time">till 22th of APR</p>
+                <div class="user">
+                    <img src="../../assets/images/user.svg" alt="User">
+                    <p class="name">Mark</p>
+                </div>
+            </div>
+        </div>
+        <ng-template #noAssignments>No assignments at the moment</ng-template>
+    </div>
+    <!--  <div class="courses">-->
+    <!--    <div class="row">-->
+    <!--      <h2>Enrolled Courses</h2>-->
+    <!--      <button mat-flat-button class="accent">View my courses</button>-->
+    <!--    </div>-->
+    <!--    <div class="blocks">-->
+    <!--      <div class="block course" *ngFor="let course of courses">-->
+    <!--        <img [src]="'../../assets/images/' + course.img + '.png'" alt="">-->
+    <!--        <p class="title">{{course.title}}</p>-->
+    <!--        <button mat-button>Study</button>-->
+    <!--      </div>-->
+    <!--      <div class="block add">-->
+    <!--        <img src="../../assets/images/plus.png" alt="">-->
+    <!--        <p class="accent">Add Course</p>-->
+    <!--      </div>-->
+    <!--      <div class="add-mobile">-->
+    <!--        <button mat-button>Add course</button>-->
+    <!--      </div>-->
+    <!--      <div class="view-all-mobile">-->
+    <!--        <button mat-button>All courses</button>-->
+    <!--      </div>-->
+    <!--    </div>-->
+    <!--  </div>-->
+</div>

@@ -1,0 +1,212 @@
+<header>
+    <img src="../../assets/images/small-logo.png" alt="FindMeMentor" class="mobile-logo">
+    <img src="../../assets/images/logo.png" alt="FindMeMentor" class="logo-img">
+    <mat-form-field appearance="fill" class="landing-input" (keyup.enter)="router.navigate(['search'],
+                  { queryParams: {search: search.value}})">
+        <mat-icon matPrefix>search</mat-icon>
+        <input matInput type="Search" placeholder="Search" #search>
+    </mat-form-field>
+    <button mat-button color="accent" class="register-btn" (click)="openRegister()">Register</button>
+    <button mat-flat-button color="accent" class="signin-btn" (click)="openSignIn()">Sign In</button>
+</header>
+<img src="../../assets/images/blob-dark-top.svg" alt="blob" class="dark-blob">
+<img src="../../assets/images/blob-violet-1.svg" alt="blob" class="violet-1">
+<div class="col-2 registration">
+    <div class="description">
+        <h2>
+            FindMeMentor offers easy <br> learning & teaching of <br> the subject of your choice <br> anytime & anywhere!
+        </h2>
+        <div class="registration-input">
+            <mat-form-field appearance="outline" class="register-input">
+                <input matInput type="Email" placeholder="Email" [formControl]="registrationUser" required>
+            </mat-form-field>
+            <button mat-flat-button color="accent" (click)="subscribeTo()">Subscribe</button>
+        </div>
+    </div>
+    <img src="../../assets/images/video-placeholder.png" (click)="openVideo()" alt="video" class="responsive-img video-img">
+</div>
+<img src="../../assets/images/blob-violet-middle.svg" alt="violet" class="violet-2">
+<div class="live-classes">
+    <div class="col-2 mobile-col-1">
+        <h2>Top Live Classes for You</h2>
+        <button mat-flat-button color="accent" class="view-all desktop" routerLink="/search" [queryParams]="{classes: true}">View all classes</button>
+    </div>
+    <div style="text-align:center" *ngIf="workshops" class="live-classes" style="width: 90%;margin:auto;">
+        <owl-carousel-o [options]="customOptions">
+            <ng-template carouselSlide *ngFor="let workshop of workshops">
+                <div class="class" style="border: 1px solid #e8e4e4;">
+                    <img src="{{workshop.picture}}" alt="" class="class-image" style="height: 200px;" [routerLink]="'/class/' + workshop.id">
+                    <div class="price" [routerLink]="'/class/' + workshop.id">{{workshop.price}}{{workshop.price_currency}}</div>
+                    <div style="min-height: 78px;max-height: 78px;" [routerLink]="'/class/' + workshop.id">
+                        <p class="classTitle">{{workshop.title}}</p>
+                        <p class="subject">{{workshop.subject}}</p>
+                    </div>
+                    <mat-divider></mat-divider>
+                    <div class="col-3" [routerLink]="'/class/' + workshop.id">
+                        <img src="../../assets/images/clock.svg" alt="clock">
+                        <p>{{workshop.start_at.split('+')[0] | date : 'h:mm a'}}</p>
+                        <img src="../../assets/images/mini-calendar.svg" alt="calendar">
+                        <p>{{workshop.start_at | date : 'dd MMMM'}}</p>
+                        <button mat-flat-button color="accent" class="register-btn">Enroll</button>
+                    </div>
+                    <div class="user" [routerLink]="'/profile/mentor/' + workshop.mentor.id">
+                        <ng-container *ngIf="workshop.mentor.user.avatar; else defaultAvatar">
+                            <img [src]="workshop.mentor.user.avatar" alt="User" class="mentor-avatar">
+                        </ng-container>
+                        <ng-template #defaultAvatar>
+                            <img src="../../assets/images/user.svg" alt="User" class="mentor-avatar">
+                        </ng-template>
+                        <p class="name">{{workshop.mentor.user.first_name}}</p>
+                    </div>
+                </div>
+
+            </ng-template>
+            <!-- <ng-template carouselSlide *ngFor="let workshop of workshops">
+            <div class="class" style="border: 1px solid #e8e4e4;" [routerLink]="'/class/' + workshop.id">
+                <img [src]="'/api/' + workshop.picture" alt="" class="class-image" style="height: 200px;">
+                <div class="price">{{workshop.price}}{{workshop.price_currency}}</div>
+                <h3>{{workshop.title}}</h3>
+                <h4>{{workshop.subject}}</h4>
+                <mat-divider></mat-divider>
+                <div class="col-3">
+                    <img src="../../assets/images/clock.svg" alt="clock">
+                    <p>{{workshop.start_at.split('+')[0] | date : 'h:mm a'}}</p>
+                    <img src="../../assets/images/mini-calendar.svg" alt="calendar">
+                    <p>{{workshop.start_at | date : 'dd MMMM'}}</p>
+                    <button mat-flat-button color="accent" class="register-btn">Enroll</button>
+                </div>
+            </div>
+
+        </ng-template> -->
+
+        </owl-carousel-o>
+    </div>
+    <!-- <div class="classes" *ngIf="workshops">
+    <div class="class" *ngFor="let workshop of workshops" [routerLink]="'/class/' + workshop.id">
+      <img [src]="'/api/' + workshop.picture" alt="" class="class-image">
+      <div class="price">{{workshop.price}}{{workshop.price_currency}}</div>
+      <h3>{{workshop.title}}</h3>
+      <h4>{{workshop.subject}}</h4>
+      <mat-divider></mat-divider>
+      <div class="col-3">
+        <img src="../../assets/images/clock.svg" alt="clock">
+        <p>{{workshop.start_at.split('+')[0] | date : 'h:mm a'}}</p>
+        <img src="../../assets/images/mini-calendar.svg" alt="calendar">
+        <p>{{workshop.start_at | date : 'dd MMMM'}}</p>
+        <button mat-flat-button color="accent" class="register-btn">Enroll</button>
+      </div>
+    </div>
+  </div> -->
+</div>
+<div class="center">
+    <button mat-flat-button color="accent" class="view-all mobile" routerLink="/search" [queryParams]="{classes: true}">View all classes</button>
+</div>
+
+<img src="../../assets/images/blob-violet-3.svg" alt="blob" class="violet-3">
+
+<!--<div class="online-courses">-->
+<!--  <div class="col-2">-->
+<!--    <h2>Popular Online Courses</h2>-->
+<!--    <button mat-flat-button color="accent" class="view-all">View All Courses</button>-->
+<!--  </div>-->
+<!--  <div class="courses">-->
+<!--    <div class="course"></div>-->
+<!--    <div class="course"></div>-->
+<!--    <div class="course"></div>-->
+<!--  </div>-->
+<!--</div>-->
+
+<!--<img src="../../assets/images/blob-violet-4.svg" alt="blob" class="violet-4">-->
+
+<div class="top-mentors" *ngIf="mentorUsers">
+    <div class="col-2 mobile-col-1">
+        <h2>Top Mentors</h2>
+        <button mat-flat-button color="accent" class="view-all desktop" routerLink="/search">View All Mentors</button>
+    </div>
+    <div class="mentors">
+        <div class="mentor" *ngFor="let mentor of mentorUsers" [routerLink]="'/profile/mentor/' + mentor.id">
+
+            <ng-container *ngIf="mentor.user.avatar; else defaultAvatar">
+                <img [src]="mentor.user.avatar" alt="Mentor" class="user-image">
+            </ng-container>
+            <ng-template #defaultAvatar>
+                <img src="../../assets/images/user.svg" alt="Mentor" class="user-image">
+            </ng-template>
+            <div>
+                <p class="name">{{mentor.user.first_name}}</p>
+                <mat-divider class="mobile"></mat-divider>
+                <p class="subject">{{mentor.expertise[0].title}}</p>
+                <div class="starts" *ngIf="mentor.user.rating">
+                    <ng-container *ngFor="let i of mentor?.user.rating | fill">
+                        <img src="../../assets/images/star.png" alt="start">
+                    </ng-container>
+                    <ng-container *ngFor="let i of (5 - mentor?.user.rating) | fill">
+                        <img src="../../assets/images/outlined-star.png" alt="start">
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="center">
+        <button mat-flat-button color="accent" class="view-all mobile" routerLink="/search">View All Mentors</button>
+    </div>
+</div>
+
+<img src="../../assets/images/blob-violet-5.svg" alt="blob" class="violet-5">
+
+
+<div class="dark-section">
+    <div class="dark-section-content">
+        <h2>Our testimonials</h2>
+        <div class="carousel-row">
+            <img src="../../assets/images/left-arrow.svg" alt="Previous" (click)="prev(demo2tab)" class="btn btn-default">
+            <mat-tab-group mat-align-tabs="start" #demo2tab>
+                <mat-tab *ngFor="let item of testimonials;">
+                    <div class="item">
+                        <div class="dark-section-content-main">
+                            <img [src]="item.photo" alt="Testimonial" class="testimonial-image">
+                            <div class="block">
+                                <p class="profession">{{item.expertise}}</p>
+                                <p class="name">{{item.name}}</p>
+                                <p class="profession-location">{{item.profession}}</p>
+                                <p class="testemonial">{{item.content}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </mat-tab>
+            </mat-tab-group>
+            <img src="../../assets/images/right-arrow.svg" alt="Next" (click)="next(demo2tab)" class="btn btn-default">
+
+        </div>
+    </div>
+</div>
+
+<div class="col-2 mobile-app">
+    <img src="../../assets/images/pupil.png" alt="pupil" class="pupils-img">
+    <form class="registration-form" [formGroup]="leadForm" #f="ngForm">
+        <h3>We would be glad to help you!</h3>
+        <mat-form-field appearance="outline">
+            <input matInput type="text" placeholder="Name" formControlName="name">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <input matInput type="email" placeholder="Email" formControlName="email">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <input matInput type="text" placeholder="Phone number" formControlName="phone" maxlength="13" minlength="9">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <textarea matInput type="text" placeholder="How can we help you?" formControlName="comment"></textarea>
+        </mat-form-field>
+        <button mat-flat-button color="accent" (click)="submitLeadForm()">Submit</button>
+    </form>
+</div>
+<div class="col-2 mobile-app">
+    <div class="google-play">
+        <h3>Introducing Game changing FindMeMentor App</h3>
+        <p>The simple, intuitive app that makes your learning easy and faster. Now all your learning needs are on your fingertip.</p>
+        <a href="https://play.google.com/store/apps/details?id=com.deyeducation.findmementorcom">
+            <img src="../../assets/images/google-play.svg" alt="Google Play">
+        </a>
+    </div>
+    <img src="../../assets/images/phone.png" alt="phone" class="responsive-img">
+</div>

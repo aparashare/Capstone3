@@ -1,0 +1,49 @@
+<div class="profile-content" *ngIf="user && userInformation && education">
+    <div class="user-information">
+        <ng-container *ngIf="user.avatar; else defaultAvatar">
+            <img [src]="user.avatar" alt="User Profile Picture" class="profile-image">
+        </ng-container>
+        <ng-template #defaultAvatar>
+            <img src="../../assets/images/user.svg" alt="User Profile Picture" class="profile-image">
+        </ng-template>
+        <div class="user-description">
+            <h2>{{user?.first_name}} {{user?.last_name}}</h2>
+            <p class="subtitle">
+                {{userInformation.city}}, {{userInformation.country_of_origin}}
+            </p>
+            <p class="text" [ngSwitch]="userInformation.gender">
+                <span *ngSwitchCase="'MAN'">Male</span>
+                <span *ngSwitchCase="'WOMAN'">Female</span>
+                <span *ngSwitchCase="'OTHER'">Other</span>
+            </p>
+        </div>
+    </div>
+    <h2>About</h2>
+    <p class="text">
+        {{userInformation.about}}</p>
+    <!-- <div class="social">
+        <a [href]="socialInformation?.linkedin" target="_blank"><img src="../../assets/images/linkedin.svg" alt=""></a>
+        <a [href]="socialInformation?.facebook" target="_blank"><img src="../../assets/images/facebook-inactive.svg" alt=""></a>
+    </div> -->
+    <h2>Education</h2>
+    <p class="subtitle">
+        {{education.school_name}}
+    </p>
+    <p class="text">
+        {{education.school_start}}-{{education.school_end}}
+    </p>
+    <h2>Profession</h2>
+    <p class="text">
+        {{userInformation.profession}}
+    </p>
+    <h2>Wants to study</h2>
+    <div class="tags">
+        <span class="tag">
+    #Physics
+  </span>
+        <span class="tag">
+      #History
+  </span>
+    </div>
+
+</div>

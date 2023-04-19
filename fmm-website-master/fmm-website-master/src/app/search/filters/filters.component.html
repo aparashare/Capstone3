@@ -1,0 +1,107 @@
+<form class="filters-content" [formGroup]="filtersForm">
+  <label>Search</label>
+  <mat-form-field appearance="fill">
+    <mat-icon matPrefix>search</mat-icon>
+    <input type="text" matInput placeholder="Search" formControlName="title__icontains">
+  </mat-form-field>
+  <div class="buttons">
+   <button mat-flat-button class="filters-button">
+     <img src="../../../assets/images/filters.png" alt="">
+     Filters</button>
+    <button mat-button color="accent" (click)="clearFilters()">Clear filters</button>
+    <mat-divider></mat-divider>
+    <label>Price</label>
+    <ng5-slider [(value)]="value" [options]="options" [highValue]="highValue"
+                formControlName="price"></ng5-slider>
+    <mat-divider></mat-divider>
+    <mat-accordion multi>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Category
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="col" *ngIf="categories">
+          <mat-checkbox *ngFor="let c of (categories | keyvalue)" [value]="c.key">{{c.value}}</mat-checkbox>
+<!--          <button mat-button color="accent">Show more</button>-->
+        </div>
+      </mat-expansion-panel>
+      <mat-divider></mat-divider>
+      <ng-container *ngIf="mentors">
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Years of Experience
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="col">
+            <mat-checkbox>less than 1 year</mat-checkbox>
+            <mat-checkbox>1 year</mat-checkbox>
+            <mat-checkbox>2 years</mat-checkbox>
+            <mat-checkbox>3 years</mat-checkbox>
+            <mat-checkbox>4+ years</mat-checkbox>
+          </div>
+        </mat-expansion-panel>
+        <mat-divider></mat-divider>
+      </ng-container>
+<!--      <mat-expansion-panel>-->
+<!--        <mat-expansion-panel-header>-->
+<!--          <mat-panel-title>-->
+<!--            Level-->
+<!--          </mat-panel-title>-->
+<!--        </mat-expansion-panel-header>-->
+<!--        <div class="col">-->
+<!--          <mat-checkbox>All levels (1934)</mat-checkbox>-->
+<!--          <mat-checkbox>Beginner (234)</mat-checkbox>-->
+<!--          <mat-checkbox>Intermediate (345)</mat-checkbox>-->
+<!--          <mat-checkbox>Expert (195)</mat-checkbox>-->
+<!--        </div>-->
+<!--      </mat-expansion-panel>-->
+<!--      <mat-divider></mat-divider>-->
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Ratings
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="col">
+          <mat-checkbox *ngFor="let star of stars">
+            <img *ngFor="let s of star.number.split('')" src="../../../assets/images/star.png" alt="star">
+            <img *ngFor="let s of star.empty.split('')"
+                 src="../../../assets/images/outlined-star.png" alt="star">
+            {{star.text}}
+          </mat-checkbox>
+        </div>
+      </mat-expansion-panel>
+      <mat-divider></mat-divider>
+    </mat-accordion>
+    <ng-container *ngIf="mentors">
+      <div class="col">
+        <label>Country</label>
+        <mat-form-field appearance="outline">
+          <mat-select placeholder="Country" formControlName="user__personal_info__country_of_origin">
+            <mat-option [value]="c.key" *ngFor="let c of (countries | keyvalue)">{{c.value}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <mat-divider></mat-divider>
+      <div class="col">
+        <label>City</label>
+        <mat-form-field appearance="outline">
+          <input type="text" matInput placeholder="City" formControlName="user__personal_info__city__icontains">
+        </mat-form-field>
+      </div>
+      <mat-divider></mat-divider>
+      <div class="col">
+        <label>Gender</label>
+        <mat-form-field appearance="outline">
+          <mat-select id="gender" placeholder="Gender" formControlName="user__personal_info__gender">
+            <mat-option value="WOMAN">Female</mat-option>
+            <mat-option value="MAN">Male</mat-option>
+            <mat-option value="OTHER">Other</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </ng-container>
+  </div>
+</form>

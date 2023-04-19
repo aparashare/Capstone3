@@ -1,0 +1,76 @@
+.footer
+  background-color: #24262e
+
+.footer-content
+  display: flex
+  flex-direction: row
+  width: 80%
+  margin: 0 auto
+  justify-content: space-around
+  color: #fff
+  padding:  104px 0 58px 0
+
+.sub-footer
+  width: 100%
+  border-top: 1px solid #505158
+
+.sub-footer-content
+  display: flex
+  flex-direction: row
+  width: 80%
+  color: #8C8C8C
+  margin: 0 auto
+  justify-content: space-between
+
+a
+  text-decoration: none
+  color: #8C8C8C
+
+.company
+  padding-inline-start: 0
+  list-style-type: none
+
+ul > li
+  padding-bottom: 14px
+  color: #8C8C8C
+
+.logo > img
+  height: 29px
+
+.section-title
+  font-style: normal
+  font-weight: 600
+  font-size: 18px
+  margin-top: 0
+
+.icons
+  display: flex
+  flex-direction: row
+  img
+    margin-right: 20px
+
+.phone
+  position: marker
+  list-style-image: url("../../assets/images/phone.svg")
+
+.mail
+  list-style-image: url("../../assets/images/footer-mail.svg")
+
+.location
+  list-style-image: url("../../assets/images/location.svg")
+
+@media screen and (max-width: 782px)
+  .footer-content
+    display: grid
+    grid-template-columns: 1fr
+    grid-row-gap: 41px
+  .logo
+    grid-row: 1
+  .company
+    grid-row: 2
+  .contacts
+    grid-row: 3
+  .social-media
+    grid-row: 4
+  .sub-footer
+    display: none

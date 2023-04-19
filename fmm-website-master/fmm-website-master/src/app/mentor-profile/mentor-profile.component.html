@@ -1,0 +1,127 @@
+<div class="profile-content" *ngIf="mentor && user">
+    <div class="item-1">
+        <div class="user-information">
+            <ng-container *ngIf="user.avatar; else defaultAvatar">
+                <img [src]="user.avatar" alt="User Profile Picture" class="profile-image">
+            </ng-container>
+            <ng-template #defaultAvatar>
+                <img src="../../assets/images/user.svg" alt="User Profile Picture" class="profile-image">
+            </ng-template>
+            <div class="user-description">
+                <h2>{{mentor.user.first_name}} {{mentor.user.last_name}}</h2>
+                <ng-container *ngIf="user.personal_info">
+                    <p class="subtitle">
+                        {{user.personal_info.city}}, {{user.personal_info.country_of_origin}}
+                    </p>
+                    <p class="text" [ngSwitch]="user.personal_info.gender">
+                        <span *ngSwitchCase="'MAN'">Male</span>
+                        <span *ngSwitchCase="'WOMAN'">Female</span>
+                        <span *ngSwitchCase="'OTHER'">Other</span>
+                    </p>
+                </ng-container>
+                <p *ngIf="mentor.user.rating; else noRating">
+                    <ng-container *ngFor="let i of mentor?.user.rating | fill">
+                        <img src="../../assets/images/star.png" alt="start">
+                    </ng-container>
+                    <ng-container *ngFor="let i of (5 - mentor?.user.rating) | fill">
+                        <img src="../../assets/images/outlined-star.png" alt="start">
+                    </ng-container>
+                </p>
+                <ng-template #noRating>
+                    <p class="text">No rating</p>
+                </ng-template>
+                <p>
+                    <span class="chip">
+              <span class="chip-text">{{mentorTag()}}</span>
+                    </span>
+                    <span class="chip-text">{{mentor.years_of_experience}} years of Experience</span>
+                </p>
+            </div>
+        </div>
+        <div class="tags">
+            <span class="reviews">
+            {{reviews ? reviews.length : 0}} {{ reviews?.length === 1 ? 'Review' : 'Reviews'}}
+          </span>
+            <span class="tag" *ngFor="let t of mentor.tags">
+            #{{t}}
+          </span>
+        </div>
+    </div>
+    <div class="block-left">
+        <div class="rate">
+            <h3>Rate</h3>
+            <p>{{mentor.half_charge}} {{mentor.half_charge_currency}} per 30 minutes session</p>
+            <p>{{mentor.full_charge}} {{mentor.full_charge_currency}} per 60 minutes session</p>
+        </div>
+        <div class="book" [formGroup]="bookingForm">
+            <h3>Book a session</h3>
+            <mat-form-field appearance="fill">
+                <input matInput [matDatepicker]="picker1" placeholder="05/03/2020" formControlName="sessionDate" (dateChange)="populateTimeSlots()">
+                <mat-error *ngIf="bookingForm.controls.sessionDate?.invalid">
+                    {{ REQUIRED_FIELD }}
+                </mat-error>
+                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                <mat-datepicker #picker1></mat-datepicker>
+            </mat-form-field>
+            <p>Available slots<sup>*</sup></p>
+            <ng-container *ngFor="let s of selectedDaySlots()">
+                <ng-container formArrayName="timeSlots">
+                    <mat-checkbox *ngFor="let hs of timeSlots().controls; let i=index;" class="time-slot" [formControl]="hs.get('selected')">
+                        {{hs.value.startAt}} - {{hs.value.endAt}}
+                    </mat-checkbox>
+                    <br>
+                </ng-container>
+            </ng-container>
+            <div *ngIf="selectedDaySlots().length === 0" class="error">No slots available, please pick another date.</div>
+            <p class="top-24">Purpose of meeting<sup>*</sup></p>
+            <mat-form-field appearance="fill">
+                <textarea type="text" matInput formControlName="purpose"></textarea>
+                <mat-error *ngIf="bookingForm.controls.purpose?.invalid">
+                    {{ REQUIRED_FIELD }}
+                </mat-error>
+            </mat-form-field>
+            <button mat-flat-button color="accent" class="book-btn" [disabled]="!formIsValid()" (click)="bookSession()">Book now</button>
+        </div>
+
+    </div>
+    <div class="item-2">
+        <h2 class="top-24">About</h2>
+        <p class="text">
+            {{user.personal_info?.about}}
+        </p>
+        <h2 class="top-24">Expertise</h2>
+        <p class="text">
+            {{mentor.about_expertise}}
+        </p>
+        <h2 class="top-60">Education</h2>
+        <ng-container *ngFor="let edu of uniqueUserEducations()">
+            <p class="subtitle">
+                {{edu.school_name}}
+            </p>
+            <p class="text">
+                {{edu.school_start}} - {{edu.school_end}}
+            </p>
+        </ng-container>
+        <h2 class="top-60" *ngIf="mentor.achievements">Achievements & Awards</h2>
+        <p class="text" *ngFor="let ach of mentor.achievements">
+            {{ach}}
+        </p>
+        <h2 class="top-60">Upcoming Classes</h2>
+    </div>
+</div>
+
+<div class="classes">
+    <div class="class" *ngFor="let workshop of mentorWorkshops" [routerLink]="'/class/' + workshop.id">
+        <div class="price">{{workshop.price}} {{workshop.price_currency}}</div>
+        <img [src]="workshop.picture" alt="" class="class-image">
+        <h3>{{workshop.title}}</h3>
+        <mat-divider></mat-divider>
+        <div class="col-2">
+            <img src="../../assets/images/clock.svg" alt="clock">
+            <p>{{workshop.start_at.split('+')[0] | date : 'hh:mm a'}}</p>
+            <img src="../../assets/images/mini-calendar.svg" alt="calendar">
+            <p>{{workshop.start_at | date : 'dd MMMM'}}</p>
+        </div>
+        <button mat-flat-button color="accent" class="register-btn">Register</button>
+    </div>
+</div>

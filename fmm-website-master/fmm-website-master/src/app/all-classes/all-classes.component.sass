@@ -1,0 +1,64 @@
+@import '../dashboard/dashboard.component'
+
+.row
+  display: flex
+  flex-direction: row
+  margin-bottom: 41px
+  align-items: baseline
+  button
+    min-width: 136px
+    height: 39px
+    border-radius: 10px
+
+  .active
+    background: #F3F3F4
+
+.all-classes-content
+  width: 80%
+  margin: 0 auto
+
+::ng-deep .mat-paginator-container
+  background-color: #ffffff
+
+.classes
+  width: 100%
+  display: grid
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr))
+  grid-column-gap: 20px
+  grid-row-gap: 20px
+
+.class
+  width: 100%
+  background: #FEFEFE
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.07)
+  border-radius: 4px
+  margin-bottom: 10px
+.class-image
+  width: 100%
+  object-fit: cover
+  height: 300px
+  border-radius: 4px 4px 0 0
+.price
+  margin-bottom: -300px
+  position: relative
+  top: -55px
+  float: right
+  width: 109px
+  height: 31px
+  background: #6C6CEE
+  border-radius: 10px 0 0 0
+  font-weight: bold
+  font-size: 22px
+  line-height: 30px
+  text-align: center
+  color: #FFFFFF
+  padding: 10px
+h3
+  font-weight: bold
+  font-size: 22px
+  width: 94%
+  vertical-align: top
+  line-height: 30px
+  color: #30323D
+  height: 95px
+  margin-left: 15px

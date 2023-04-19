@@ -1,0 +1,69 @@
+<form [formGroup]="mentorSchedule" *ngIf="user && mentorSchedule && currencies && mentor">
+  <h2>Pricing</h2>
+  <div class="price-grid">
+    <label class="title" for="30-min">Your price per 30 min session</label>
+    <label class="title" for="30-currency">Currency</label>
+    <mat-form-field appearance="fill">
+      <input type="text" matInput  id="30-min" placeholder="Price" formControlName="half_charge">
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-select id="30-currency" placeholder="Currency" formControlName="half_charge_currency">
+        <mat-option [value]="c.key" *ngFor="let c of (currencies | keyvalue)">{{c.value}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <label for="30-min">Your price per 60 min session</label>
+    <label for="60-currency">Currency</label>
+    <mat-form-field appearance="fill">
+      <input type="text" matInput  id="60-currency" placeholder="Price" formControlName="full_charge">
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-select id="60-min" placeholder="Currency" formControlName="full_charge_currency">
+        <mat-option [value]="c.key" *ngFor="let c of (currencies | keyvalue)">{{c.value}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <h2 class="margin-top">Schedule</h2>
+  <div class="schedule-grid" *ngIf="timeSlots">
+<!--    <ng-container *ngFor="let day of days">-->
+      <ng-container formArrayName="timeSlots" class="full-length">
+        <ng-container *ngFor="let ts of timeSlots().controls; let i=index" [formGroupName]="i">
+<!--          <label class="full-length">Choose day of the week</label>-->
+          <mat-form-field appearance="fill">
+            <mat-select placeholder="Monday" formControlName="day">
+              <mat-option [value]='day.toUpperCase()' *ngFor="let day of days">{{day}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="timeSlots().controls[i].invalid">
+                {{ REQUIRED_FIELD }}
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-select placeholder="11 pm" formControlName="start_at">
+              <mat-option [value]='t' *ngFor="let t of time">{{t}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="timeSlots().controls[i].invalid">
+                {{ REQUIRED_FIELD }}
+            </mat-error>
+          </mat-form-field>
+          <p>till</p>
+          <mat-form-field appearance="fill">
+            <mat-select placeholder="11:30 pm" formControlName="end_at">
+              <mat-option [value]='t' *ngFor="let t of time">{{t}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="timeSlots().controls[i].invalid">
+              {{ REQUIRED_FIELD }}
+            </mat-error>
+          </mat-form-field>
+          <!--        <img class="remove" (click)="removeAchievement(i)"-->
+          <!--             src="../../assets/images/cross.png" alt="Remove">-->
+        </ng-container>
+      </ng-container>
+      <mat-hint class="full-length" (click)="addTimeSlots()">
+        + Add more timeslots
+      </mat-hint>
+<!--    </ng-container>-->
+  </div>
+  <div class="buttons">
+<!--    <button mat-flat-button class="back">Back</button>-->
+    <button mat-flat-button color="accent" class="register" (click)="formSubmit()">Register</button>
+  </div>
+</form>

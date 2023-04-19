@@ -1,0 +1,65 @@
+.container
+  width: 80%
+  max-width: 980px
+  margin: 0 auto
+  display: flex
+  flex-direction: column
+
+.full-length-input
+  width: calc(100% - 60px)
+
+h1, h2
+  font-weight: 800
+
+h1
+  font-size: 30px
+
+.register-btn
+  text-align: end
+  margin-bottom: 96px
+  button
+    height: 47px
+    width: 128px
+
+.title
+  margin: 25px 0
+
+label
+  margin-bottom: 13px
+
+textarea
+  height: 176px
+  width: 100%
+
+.social-icon
+  vertical-align: top
+  padding: 3px
+  margin-left: 12px
+
+.education-grid
+  display: grid
+  grid-template-columns: 49% 49%
+  width: 580px
+  grid-column-gap: 20px
+
+.full-length
+  grid-column: 1/-1
+
+mat-hint
+  font-size: 14px
+  color: #C4C4C4
+
+.col
+  display: flex
+  flex-direction: column
+
+@media screen and (max-width: 768px)
+  .education-grid
+    width: 100%
+    grid-column-gap: 10px
+  .profession
+    grid-column: 1/-1
+  .register-btn
+    button
+      width: 100%
+      margin-top: 40px

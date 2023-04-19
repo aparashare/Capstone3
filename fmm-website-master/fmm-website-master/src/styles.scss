@@ -1,0 +1,235 @@
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@import '~@angular/material/theming';
+@import 'assets/theme';
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,800&display=swap'); // Plus imports for other components in your app.
+@import '~ngx-owl-carousel-o/lib/styles/scss/owl.carousel';
+@import '~ngx-owl-carousel-o/lib/styles/scss/owl.theme.default';
+@import '~material-design-icons/iconfont/material-icons.css';
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat-core();
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$findMentor-primary: mat-palette($mat-custom);
+$findMentor-accent: mat-palette($mat-custom,
+A100,
+A200,
+A400);
+// The warn palette is optional (defaults to red).
+$findMentor-warn: mat-palette($mat-red);
+// Create the theme object (a Sass map containing all of the palettes).
+$findMentor-theme: mat-light-theme($findMentor-primary,
+$findMentor-accent,
+$findMentor-warn);
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include angular-material-theme($findMentor-theme);
+
+/* You can add global styles to this file, and also import other style files */
+
+html,
+body {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+body {
+    margin: 0;
+    font-family: 'Open Sans', sans-serif;
+    color: #30323D;
+}
+
+.mat-form-field-appearance-fill .mat-form-field-underline::before {
+    background-color: #f5f5f5;
+}
+
+.mat-form-field-appearance-fill .mat-form-field-flex {
+    padding: 0 .75em 0 .75em !important;
+}
+
+.mat-form-field-appearance-legacy .mat-form-field-prefix .mat-icon,
+.mat-form-field-appearance-legacy .mat-form-field-suffix .mat-icon {
+    vertical-align: bottom !important;
+    margin-bottom: 3px !important;
+}
+
+input:focus,
+select:focus,
+textarea:focus,
+img:focus,
+button:focus {
+    outline: none;
+}
+
+.mat-expansion-panel:not([class*=mat-elevation-z]) {
+    box-shadow: none;
+}
+
+.mat-expansion-panel-content {
+    font-family: 'Open Sans', sans-serif;
+    color: #30323D;
+}
+
+.mat-expansion-panel-header {
+    font-family: 'Open Sans', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 22px;
+    color: #30323D;
+}
+
+.mat-expansion-panel-body {
+    padding: 0 !important;
+}
+
+.mat-expansion-panel-header {
+    padding: 0 24px 0 0 !important;
+}
+
+mat-expansion-panel {
+    background-color: #fafafa !important;
+}
+
+mat-paginator {
+    background-color: #fafafa !important;
+}
+
+.mat-checkbox-frame {
+    border-color: #30323D !important;
+}
+
+.mat-checkbox-frame {
+    border-width: 1px !important;
+}
+
+.ng5-slider-pointer {
+    border: 1px solid #E5E5E5 !important;
+    width: 20px !important;
+    height: 20px !important;
+    top: -10px !important;
+}
+
+.ng5-slider-pointer:after {
+    content: none !important;
+}
+
+.mat-menu-content {
+    background-color: #707070 !important;
+    border-radius: 0 !important;
+}
+
+.mat-menu-content button {
+    color: #FFFFFF !important;
+    font-weight: bold;
+}
+
+.register-input .mat-form-field-infix {
+    padding: 10px !important;
+}
+
+.mat-tab-labels {
+    display: none !important;
+}
+
+.mat-tab-group {
+    width: 100% !important;
+}
+
+.right-aligned-header>.mat-content {
+    justify-content: space-between;
+}
+
+.mat-content>mat-panel-title,
+.mat-content>mat-panel-description {
+    flex: 0 0 auto;
+}
+
+.mat-expansion-panel-body {
+    background: white;
+}
+
+.mat-expansion-panel {
+    border-radius: 7px !important;
+    .white-background {
+        background: white;
+    }
+}
+
+.owl-carousel {
+    width: 90% !important;
+    margin: 10% auto;
+}
+
+.owl-carousel .owl-nav {
+    overflow: hidden;
+    height: 0px;
+}
+
+.owl-carousel .nav-btn {
+    height: 47px;
+    position: absolute;
+    width: 55px;
+    cursor: pointer;
+    top: 40% !important;
+}
+
+.owl-carousel .owl-prev.disabled,
+.owl-carousel .owl-next.disabled {
+    pointer-events: none;
+    opacity: 0.2;
+}
+
+.owl-carousel .prev-slide {
+    background: url(./assets/images/left-arrow.svg) no-repeat scroll 0 0;
+    left: -65px;
+}
+
+.owl-carousel .next-slide {
+    background: url(./assets/images/right-arrow.svg) no-repeat scroll -10px 0px;
+    right: -70px;
+}
+
+.owl-carousel .prev-slide:hover {
+    // background-position: 0px -53px;
+}
+
+.owl-carousel .next-slide:hover {
+    // background-position: -24px -53px;
+}
+
+.mat-slider-thumb-label {
+    transform: rotate(45deg) !important;
+    border-radius: 50% 50% 0 !important;
+}
+
+.mat-slider-thumb {
+    transform: scale(0) !important;
+}
+
+.mat-slider-thumb-label-text {
+    opacity: 1 !important;
+}
+
+.mat-slider-horizontal .mat-slider-track-wrapper {
+    height: 10px !important;
+    border-radius: 10px;
+}
+
+.mat-slider-horizontal .mat-slider-track-background {
+    height: 10px !important;
+}
+
+.mat-slider-horizontal .mat-slider-track-fill {
+    height: 10px !important;
+}
+
+.mat-slider-horizontal .mat-slider-ticks {
+    display: none;
+}

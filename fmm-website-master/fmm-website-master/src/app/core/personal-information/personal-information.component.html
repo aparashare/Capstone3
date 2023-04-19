@@ -1,0 +1,130 @@
+<div *ngIf="user && personalInformationForm">
+    <form [formGroup]="personalInformationForm" class="table" (change)="changeInfo()">
+        <div class="user-image-container">
+            <img *ngIf="url" id="imagePreview" class="preview" [src]="url" alt="Preview">
+            <img *ngIf="!url" class="user-image" src="../../assets/images/user.svg" alt="User Image" (click)="imageInput.click()">
+            <img *ngIf="url" src="../../assets/images/update-half.png" alt="Update" class="user-image-overlay" (click)="imageInput.click()">
+            <input #imageInput class="image-upload" type="file" accept="image/*" (change)="fileProgress($event)">
+        </div>
+        <div *ngIf="status">
+            <h2>Your Status</h2>
+            <mat-form-field appearance="fill" class="status">
+                <input disabled matInput value="Not applied">
+            </mat-form-field>
+        </div>
+        <h2 class="full-length title">Personal information</h2>
+        <div class="col">
+            <label for="first_name">First name<sup>*</sup></label>
+            <mat-form-field appearance="fill">
+                <input id="first_name" matInput formControlName="first_name" placeholder="First name">
+                <mat-error *ngIf="personalInformationForm.controls.first_name.errors?.required &&
+                 personalInformationForm.controls.first_name.invalid">
+                    {{ REQUIRED_FIELD }}
+                </mat-error>
+            </mat-form-field>
+        </div>
+        <div class="col">
+            <label for="last_name">Last name<sup>*</sup></label>
+            <mat-form-field appearance="fill">
+                <input id="last_name" matInput formControlName="last_name" placeholder="Last name">
+                <mat-error *ngIf="personalInformationForm.controls.last_name.errors?.required &&
+                 personalInformationForm.controls.last_name.invalid">
+                    {{ REQUIRED_FIELD }}
+                </mat-error>
+            </mat-form-field>
+        </div>
+        <div class="full-length">
+            <div class="date-of-birth-col" style="display: none;">
+                <label class="date-of-birth-label">Date of birth<sup>*</sup></label>
+                <mat-form-field appearance="fill" class="width-33">
+                    <mat-select placeholder="Day" formControlName="day">
+                        <mat-option *ngFor="let day of days" value="{{day}}">{{day}}</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="personalInformationForm.controls.day.errors?.required &&
+                   personalInformationForm.controls.day.invalid">
+                        {{ REQUIRED_FIELD }}
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="fill" class="width-33">
+                    <mat-select placeholder="Month" formControlName="month">
+                        <mat-option *ngFor="let month of months" value="{{month}}">{{month}}</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="personalInformationForm.controls.month.errors?.required &&
+                   personalInformationForm.controls.month.invalid">
+                        {{ REQUIRED_FIELD }}
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="fill" class="width-33">
+                    <mat-select placeholder="Year" formControlName="year">
+                        <mat-option *ngFor="let year of years" value="{{year}}">{{year}}</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="personalInformationForm.controls.year.errors?.required &&
+                   personalInformationForm.controls.year.invalid">
+                        {{ REQUIRED_FIELD }}
+                    </mat-error>
+                    <mat-error *ngIf="personalInformationForm.controls.year.errors?.invalid &&
+                   personalInformationForm.controls.year.invalid &&
+                   personalInformationForm.controls.year.value">
+                        {{ INVALID_BIRTHDAY_FIELD }}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col gender">
+                <label class="gender-label" for="gender">Gender<sup>*</sup></label>
+                <mat-form-field appearance="fill">
+                    <mat-select id="gender" placeholder="Gender" formControlName="gender">
+                        <mat-option value="WOMAN">Female</mat-option>
+                        <mat-option value="MAN">Male</mat-option>
+                        <mat-option value="OTHER">Other</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="personalInformationForm.controls.gender.errors?.required &&
+                   personalInformationForm.controls.gender.invalid">
+                        {{ REQUIRED_FIELD }}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="col">
+            <label for="email">Email</label>
+            <mat-form-field appearance="fill">
+                <input id="email" matInput placeholder="Email" [value]="this.user.email" disabled>
+            </mat-form-field>
+        </div>
+        <div class="col">
+            <label for="phone">Phone<sup>*</sup></label>
+            <mat-form-field appearance="fill">
+                <input id="phone" matInput placeholder="Phone Number (+380000000000)" formControlName="phone" [minLength]="9" [maxLength]="13">
+                <mat-error *ngIf="personalInformationForm.controls.phone.errors?.required &&
+                 personalInformationForm.controls.phone.invalid">
+                    {{ REQUIRED_FIELD }}
+                </mat-error>
+                <mat-error *ngIf="personalInformationForm.controls.phone.errors?.pattern &&
+                 personalInformationForm.controls.phone.invalid">
+                    {{ INVALID_PHONE_FIELD}}
+                </mat-error>
+            </mat-form-field>
+        </div>
+        <div class="col" *ngIf="countries" style="display: none;">
+            <label>Country<sup>*</sup></label>
+            <mat-form-field appearance="fill">
+                <mat-select placeholder="Country" formControlName="country_of_origin">
+                    <mat-option [value]="c.key" *ngFor="let c of (countries | keyvalue)">{{c.value}}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="personalInformationForm.controls.country_of_origin.errors?.required &&
+                 personalInformationForm.controls.country_of_origin.invalid">
+                    {{ REQUIRED_FIELD }}
+                </mat-error>
+            </mat-form-field>
+        </div>
+        <div class="col" style="display: none;">
+            <label for="city">City<sup>*</sup></label>
+            <mat-form-field appearance="fill">
+                <input id="city" matInput placeholder="City" formControlName="city">
+                <mat-error *ngIf="personalInformationForm.controls.city.errors?.required &&
+                 personalInformationForm.controls.city.invalid">
+                    {{ REQUIRED_FIELD }}
+                </mat-error>
+            </mat-form-field>
+        </div>
+    </form>
+</div>

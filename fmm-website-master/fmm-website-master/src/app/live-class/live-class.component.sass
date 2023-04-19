@@ -1,0 +1,465 @@
+lice-class.sass
+
+mat-toolbar
+  width: 100%
+  height: 60px
+  background: #424555
+  justify-content: space-evenly
+  .icon
+    width: 26px
+    cursor: pointer
+  .exit-icon
+    cursor: pointer
+    color: red
+    font-size: 36px  
+  .hand-down
+    cursor: pointer
+    color: #d19637
+    font-size: 36px  
+  .hand-up
+    cursor: pointer
+    color: #fff
+    font-size: 30px 
+  .recorder
+    cursor: pointer
+    color: #fff
+    font-size: 40px 
+  .recorder-down
+    cursor: pointer
+    color: red
+    font-size: 30px         
+.icon
+    width: 26px
+    cursor: pointer
+.live-class-content
+  overflow: auto
+  background-color: #30323D
+[hidden]
+  display: none !important
+.camera
+    position: absolute
+    z-index: 999
+    left: 57%
+    top: 25%
+    width: 15%
+    video
+      width: 100%
+      border-radius: unset !important
+.live-class
+    padding-top: 15px
+    width: 95%
+    margin: 0 auto
+    display: grid
+    grid-template-columns: repeat(4,1fr)
+    grid-gap: 1rem
+
+
+.video
+  width: 100%
+  height: 500px
+  grid-column: 1 / span 3
+  .live
+    position: absolute
+    width: 6%
+    bottom: 10px
+    left: 10px
+  background-color: black
+  video 
+     object-fit: contain
+
+  .full-screen
+    position: absolute
+    right: 5px
+    bottom: 4px
+    color: white
+    font-size: 30px
+    z-index: 100
+    cursor: pointer
+
+.chat
+  width: 100%
+  background: #FEFEFE
+  border: 1px solid #F3F3F4
+  height:500px
+  .chatType
+    margin-left:10px
+    text-align: center
+    padding: 10px
+  .divs
+    width: 100%
+    height: 34px
+    border: 1px solid #F3F3F4
+    box-sizing: border-box
+    border-radius: 8px
+    margin-bottom:3px
+    font-size: 14px
+    line-height: 19px
+    text-align: center
+    color: #8C8C8C
+    padding: 5px
+    cursor: pointer
+  .disabled 
+    cursor: not-allowed
+    pointer-events: none
+  
+  .d_1_G
+        background: #30323d 
+        color:#fff
+        .divs-toggle-span
+          background-color: #66D866
+          color: white
+          padding: 0px 3px 0px 3px
+          border-radius: 5px 5px 5px 5px
+          font-size: 12px
+          margin-left: 8px
+  .d_2_G
+        background: #30323d  
+        color: #fff
+        .divs-toggle-span
+          background-color: #66D866
+          color: #fff
+          padding: 0px 3px 0px 3px
+          border-radius: 5px 5px 5px 5px
+          font-size: 12px
+          margin-left: 8px
+  .d_1_R
+        background: #FEFEFE  
+        color:#5b5c5f
+        .divs-toggle-span
+          background-color: #da2e2e
+          color: white
+          padding: 0px 3px 0px 3px
+          border-radius: 5px 5px 5px 5px
+          font-size: 12px
+          margin-left: 8px
+  .d_2_R
+        background: #FEFEFE 
+        .divs-toggle-span
+          background-color: #da2e2e
+          color: white
+          padding: 0px 3px 0px 3px
+          border-radius: 5px 5px 5px 5px
+          font-size: 12px
+          margin-left: 8px
+  .d_3_G
+        background: #30323d
+        color:#fff  
+  .d_3_R
+        background: #FEFEFE   
+        color:#000                   
+  .chat-box
+      .green 
+        background-color: green
+      .red 
+          background-color: red
+      .message_history
+          &::-webkit-scrollbar 
+              width: 6px
+          &::-webkit-scrollbar-track 
+              background:#F3F3F4
+          &::-webkit-scrollbar-thumb 
+              border-radius:50px
+              background-color: #8C8C8C
+          height: 19rem
+          overflow-y: scroll
+          .message
+            list-style-type: none
+            .incoming_msg
+              display: inline-block 
+              padding: 0 0 0 10px 
+              vertical-align: top 
+              width: 92%
+              .incoming_msg_img 
+                    display: inline-block 
+                    width: 6% 
+                    .incoming_msg_img img
+                          width:6%
+                    
+              .received_msg 
+                  display: inline-block
+                  padding: 5px
+                  vertical-align: top
+                  width: 80%
+                  background-color: #f9f9f9
+                  margin-top: 5px
+                  border-radius: 12px 
+                  .received_withd_msg 
+                      width: 100% 
+                  .received_withd_msg 
+                      p 
+                        background: #ebebeb none repeat scroll 0 0 
+                        border-radius: 3px 
+                        color: #646464 
+                        font-size: 14px 
+                        margin: 0 
+                        padding: 5px 10px 5px 12px 
+                        width: 100% 
+                      .msg_time_l
+                          color: #8C8C8C
+                          font-size: 12px
+                          padding: 2px
+                      .msg_user_l
+                          font-size: 12px
+                          font-weight: bold
+                          padding: 2px
+                      .msg_msg_l  
+                          font-size: 12px
+                          margin-left: 1px
+                          padding: 2px
+                          margin: 0
+                          background: none
+                          overflow-wrap: break-word
+
+            .outgoing_msg 
+              overflow: hidden 
+              margin: 10px 0 10px 
+              .sent_msg 
+                 float: right 
+                 width: 80% 
+              .sent_msg 
+                  div 
+                    background: #d6d6f3f0 none repeat scroll 0 0
+                    border-radius: 12px
+                    font-size: 14px
+                    margin: 0px 1px 5px -28px
+                    padding: 5px 10px 5px 12px
+                    width: 100%
+                  .msg_time_l
+                      color: #656363
+                      font-size: 12px
+                      padding: 2px
+                  .msg_user_l
+                      font-size: 12px
+                      font-weight: bold
+                      padding: 2px
+                  .msg_msg_l  
+                          font-size: 12px
+                          margin-left: 1px
+                          padding: 2px
+                          margin: 0
+                          background: none
+                          overflow-wrap: break-word
+      .bottom
+        height: 50px
+        margin-top: 10px    
+        .input
+          height: 40px
+          background: #f3f3f4 
+          border: none
+          width: calc(100% - 105px)
+          padding: 0 5%
+          resize: none
+          overflow: hidden
+          padding-top: 0px
+          font-weight: 300
+          border-radius: 5px 0px 0px 5px
+          -ms-overflow-style: none
+          overflow: -moz-scrollbars-none  
+          margin-left: 20px
+        .send
+          position: relative
+          height: 40px
+          width: 40px
+          border-radius: 5px 5px 5px 5px
+          border: 0
+          background: #6C6CEE none repeat scroll 0 0
+          color: #ffffff
+          margin-left: -3px
+          bottom: 10.6666666667px
+          span
+            font-size: 22px             
+
+      .write
+        width: 80% 
+        background-color: #f3f3f4 
+        border-radius: 5px 
+        margin: 10px 
+        input 
+          background: rgba(0, 0, 0, 0) none repeat scroll 0 0 
+          border: medium none 
+          color: #4c4c4c 
+          font-size: 15px 
+          min-height: 35px 
+          width: 90% 
+          padding-left: 10px
+      .type_msg 
+        border-top: 1px solid #c4c4c4 
+        position: relative 
+      .msg_send_btn 
+        background: #6C6CEE none repeat scroll 0 0 
+        border: medium none 
+        border-radius: 0px 5px 5px 0px 
+        color: #fff 
+        cursor: pointer 
+        font-size: 17px 
+        height: 36px 
+        width: 35px 
+        line-height: 0px  
+   
+
+
+
+.remote-video
+  width: 100%
+  height: 100%
+
+h5
+  color: #ffffff
+
+video
+  border-radius: 10px
+
+@media screen and (max-width: 700px)
+  .live-class
+    display: flex
+    flex-direction: column
+
+.center
+  margin: 0 auto
+  width: fit-content
+  padding-top: 20px
+
+.timer-container
+  display: flex
+
+.timer
+  color: white
+  padding-left: 10px
+
+@media screen and (min-height: 500px)
+  body
+    margin-top: 100px
+
+
+.li 
+  list-style: none
+  background: #d1703c
+  color: #fff
+  height: 2em
+  line-height: 2em
+  margin: 0
+  padding: 0 0.5em
+  overflow: hidden
+  width: 10em
+
+.show 
+  height: 2em
+  margin: 2px 0
+
+.fade .li
+  transition: all 10s ease-out
+  height: 2em
+
+.fade .li .show 
+  opacity: 1
+
+
+.online-div
+    width: 90%
+    margin: 5px auto
+    padding: 20px
+    border: 1px solid gray
+    border-radius: 5px
+    display: grid
+    grid-template-columns: repeat(6,1fr)
+    &::-webkit-scrollbar 
+        width: 10px
+    &::-webkit-scrollbar-track 
+        background:#F3F3F4
+    &::-webkit-scrollbar-thumb 
+        border-radius:50px
+        background-color: #d19733
+    height: 25rem
+    overflow-y: auto
+.online-card
+
+
+.container 
+      text-align: center
+.container
+     .div
+        height: 80px
+        width:  80px
+        background-color: white
+        vertical-align: middle
+        padding: 15px
+        border-radius: 50%
+        margin: auto
+        pacity: 0
+        transition: opacity 2s
+        -webkit-transition: opacity 2s
+      
+.online-users
+    color: white
+    display: grid
+    grid-template-columns: repeat(2,1fr)
+    width: 85%
+    margin: 70px auto
+    background-color: #424555
+    padding: 13px
+
+.waiting-class-list
+    background-color: #d19733
+    padding: 5px   
+    text-align: center 
+.joined-class-list
+    background-color: #d19733
+    padding: 5px    
+    text-align: center 
+.waiting-head
+    text-align: center
+    background-color: #30323d
+    height: 35px
+    padding: 10px 0px 0px 0px    
+    width: 95%
+    margin: auto
+
+
+.wait-card 
+    margin-top :5px
+    background: #fff
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2)
+    max-width: 75px
+    margin: 10px auto
+    text-align: center
+    font-family: arial
+    h4
+      font-size: 11px
+      background-color: #d19733
+      margin: 0
+      padding: 2px
+      min-height: 22px
+  
+
+.join-card 
+    margin-top :5px
+    background: #fff
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2)
+    max-width: 75px
+    margin: 10px auto
+    text-align: center
+    font-family: arial
+    h4
+      font-size: 11px
+      background-color: #33d155
+      margin: 0
+      padding: 2px
+      min-height: 22px
+
+.user-lists
+    background-color: #30323d
+    color: white
+    text-align: center
+    height: 25px
+    padding: 5px
+    width: 80%
+    margin: 10px auto
+    border-radius: 4px
+    cursor: pointer
+
+.notes-area
+    height: 70%
+    width:300px
+  
+
+  

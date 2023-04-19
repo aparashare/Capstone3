@@ -1,0 +1,79 @@
+<div class="dark-section" *ngIf="workshop">
+    <div class="dark-section-content">
+        <div class="dark-section-content-main">
+            <img [src]="workshop.picture" alt="Workshop" class="workshop-cover class-img">
+            <div class="block">
+                <div class="big-price">{{workshop.price}} {{workshop.price_currency}}</div>
+                <h1>{{workshop.title}}</h1>
+                <p class="time">{{workshop.start_at.split('+')[0] | date: 'MMMM d, h:mm a'}}</p>
+                <p class="title">{{workshop.subject}}</p>
+                <div class="row">
+                    <p class="light">Places left: {{workshop.amount - workshop.subscribed}}</p>
+                    <p class="light margin-left">Enrolled students: {{workshop.subscribed}}</p>
+                </div>
+                <p [innerHTML]="workshop.topics | slice: 0: 161">...</p>
+                <a class="link" (click)="scroll('landing-content')">Read More</a>
+                <div class="tags">
+                    <span *ngFor="let t of workshop.tags">#{{t}}</span>
+                </div>
+                <div class="row" *ngIf="!mentorOwnsWorkshop()">
+                    <mat-form-field appearance="outline" class="full-width right">
+                        <input matInput type="text" placeholder="Promo Code" [formControl]="promoCode">
+                    </mat-form-field>
+                </div>
+                <div class="row">
+                    <div style="text-align: center;">
+                        <ng-container *ngIf="workshop.mentor.user.avatar; else defaultAvatar">
+                            <img [src]="workshop.mentor.user.avatar" alt="User" class="mentor-image">
+                        </ng-container>
+                        <ng-template #defaultAvatar>
+                            <img src="../../assets/images/user.svg" alt="User" class="mentor-image">
+                        </ng-template>
+                        <p class="name">{{workshop.mentor.user.first_name}}</p>
+                    </div>
+                    <div style="margin-left: auto;">
+                        <button *ngIf="user && !user.mentor_account" mat-flat-button color="primary" class="right" type="button" [routerLink]="['/review']">Rate & Comment</button>
+                        <button *ngIf="user && user.mentor_account" mat-flat-button color="primary" class="right" type="button" (click)="openSummary()">Class Summary</button>
+                    </div>
+                    <div class="right" *ngIf="!mentorOwnsWorkshop()">
+                        <mat-spinner color="primary" diameter="35" *ngIf="isEnrollLoader"></mat-spinner>
+                        <ng-container>
+                            <button *ngIf="userRegistered && !isEnrollLoader" mat-flat-button color="accent" class="right" routerLink="live">Start Class</button>
+                            <button *ngIf="!userRegistered && !isEnrollLoader" mat-flat-button color="accent" class="right" (click)="registerForClass()">Enroll</button>
+                        </ng-container>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="landing-content" class="class-landing-content" *ngIf="workshop">
+    <div class="topic_format">
+        <h1>{{workshop.title}}</h1>
+        <p class="text" [innerHTML]="workshop.topics"></p>
+
+    </div>
+
+    <div class="live-classes">
+        <div class="col-2">
+            <h2>Similar Live Classes</h2>
+            <button mat-flat-button color="accent" class="view-all" routerLink="../../search">View all classes</button>
+        </div>
+        <div class="classes">
+            <div class="class" *ngFor="let sWorkshop of similarWorkshops" [routerLink]="'../' + sWorkshop.id">
+                <img [src]="sWorkshop.picture" alt="Class" class="class-image">
+                <div class="price">{{sWorkshop.price}} {{sWorkshop.price_currency}}</div>
+                <h3>{{sWorkshop.title}}</h3>
+                <mat-divider></mat-divider>
+                <div class="col-3">
+                    <img src="../../assets/images/clock.svg" alt="clock">
+                    <p>{{sWorkshop.start_at.split('+')[0] | date : 'h:mm a'}}</p>
+                    <img src="../../assets/images/mini-calendar.svg" alt="calendar">
+                    <p>{{sWorkshop.start_at | date : 'dd MMMM'}}</p>
+                    <button mat-flat-button color="accent" class="register-btn">Enroll</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
