@@ -5,9 +5,9 @@ __pycache__/
 *$py.class
 .idea
 
-config/docker/database.env
-config/docker/djangoapp.env
-config/docker/broker.env
+# config/docker/database.env
+# config/docker/djangoapp.env
+# config/docker/broker.env
 
 # C extensions
 *.so
