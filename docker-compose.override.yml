@@ -39,6 +39,8 @@ services:
   nginx:
     image: nginx:1.16.0-alpine
     container_name: fmm_api_nginx
+    networks:
+      - database_network
     ports:
       - "80:8000"
     volumes:
