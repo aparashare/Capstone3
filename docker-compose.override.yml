@@ -37,6 +37,7 @@ services:
       - .:/opt/djangoapp/src
 
   nginx:
+    image: nginx:1.16.0-alpine
     container_name: fmm_api_nginx
     ports:
       - "80:8000"
