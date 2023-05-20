@@ -1,0 +1,242 @@
+Build EC2 Instance on Ubuntu
+	1. 
+GitHub
+	1. Capstone 3 - Clone project
+		https://github.com/UnpredictablePrashant/Capstone_DevOps3.git
+	2. Abhijit - GitHub
+		https://github.com/aparashare/Capstone3.git
+	3. Pushing changes from local git repository to github cloud account	
+		git remote add origin https://github.com/aparashare/Capstone3.git
+		git branch -M main
+		git push -u origin main
+		git remote -v
+		origin  https://github.com/aparashare/Capstone3.git (fetch)
+		origin  https://github.com/aparashare/Capstone3.git (push)
+
+		git restore . 				// restore the original files
+		git status					// check for nothing to commit, working tree clean <<- lok for this message and then only do git pull
+		git pull 
+		
+	4. Create an EC2 instance on Ubintu
+		key: kp-project.pem			instance: i-0ab5db4739f42de84 (capstone3)	IPv4:	184.72.84.188
+		key: kp-cap3.pem			instance: i-06cfff0adf4a470b4 (capstone3)	IPv4: 	3.86.148.170
+		key: kp-project3			instance: i-08dc633b14ffdde61 (capstone3)	IPv4:	3.86.28.185
+	5. Connecting to EC2
+		ssh -i /path/key-pair-name.pem instance-user-name@instance-public-dns-name
+		ssh -i kp-project.pem ubuntu@184.72.84.188
+		ssh -i kp-cap3.pem ubuntu@3.86.148.170
+		ssh -i kp-project3.pem ubuntu@3.86.28.185
+	6. Make a folder in Ubuntu machine for your project and clone the repository
+		mkdir project
+		cd project
+		git clone https://github.com/aparashare/Capstone3.git
+		CD Capstone3
+	7. Install Docker and Docker compose on Ubuntu - 
+	Ref: https://docs.docker.com/engine/install/ubuntu/
+		7.1 Update the apt package index and install packages to allow apt to use a repository over HTTPS:
+			sudo apt-get update
+			sudo apt-get install \
+			ca-certificates \
+			curl \
+			gnupg
+		7.2 Add Docker’s official GPG key:
+			sudo install -m 0755 -d /etc/apt/keyrings
+			curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+			sudo chmod a+r /etc/apt/keyrings/docker.gpg
+		7.3 Use the following command to set up the repository:
+			echo \
+			"deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+			"$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | \
+			sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+		7.4 Install Docker engine
+			sudo apt-get update
+		7.5 Install Docker Engine, containerd, and Docker Compose.
+			sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+		7.6 Verify that the Docker Engine installation is successful by running the hello-world image:
+			sudo docker run hello-world
+		7.8 Install docker-compose
+			sudo snap install docker          # version 20.10.17, or
+			sudo apt  install docker-compose  # version 1.29.2-1
+
+		7.9 Check versions
+			docker -v						// Docker version 23.0.4, build f480fb1
+			docker-compose -v				// docker-compose version 1.29.2, build unknown
+		7.10
+			
+			sudo chmod -R 776 Capstone3   	// to be execute from the root folder (project) every time
+			
+						drwxrwxr-x  3 ubuntu ubuntu 4096 May  7 06:03 ./
+						drwxr-x---  5 ubuntu ubuntu 4096 May  7 06:05 ../
+						drwxrwxrw- 10 ubuntu ubuntu 4096 May  7 06:03 Capstone3/
+
+		7.11	sudo docker-compose -f docker-compose.override.yml up 		// up container
+		
+		7.12
+		// to see the container images details
+				sudo docker ps -a
+			
+		7.13	
+		// to shutdown/ stop the container
+			sudo docker-compose -f docker-compose.override.yml down
+		
+		
+		// ** START OF SECTION - 8 **
+		
+		8	
+		// Install Jenkins on Ubuntu
+		
+		8.1	
+		// EC2 instance >> Network & Security >> Security Group >> create a security group >> add inbound rules
+		//	SSH 		TCP	22		Custom		CloudIPv4/32	example 52.70.54.92/32
+		//	HTTP		TCP	80		Anywhere	0.0.0.0/0
+		//	CUSTOM TCP	TCP	8080	Anywhere	0.0.0.0/0
+		//	create the security group
+		
+		8.2	
+		//	SSH to connect to your instance 
+			ssh -i kp-0511-cap3.pem ubuntu@52.70.54.92
+			
+		//  Ref https://www.devstringx.com/setting-up-jenkins-on-amazon-ec2-ubuntu-instance
+		
+		8.3
+		// install Java
+		// Enable the ‘Universe’ repository using the below command
+			sudo add-apt-repository universe
+		
+		8.4
+		//install java
+			sudo apt install openjdk-8-jdk
+			
+		8.5
+		// Setup Java_Home using the below commands
+		// Open bashrc file with the command
+			sudo nano .bashrc
+		// Add the below lines at the end you’re in bashrc file
+			export JAVA_HOME=/usr
+			export PATH=$JAVA_HOME/bin:$PATH
+		// save the file
+			CNTL X 	Save 	Yes	
+			
+		8.6
+		// install jenkins
+		//	Add the key using the below command in order to use Debian package repository of Jenkins
+			wget -q -O – https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo apt-key add –
+		
+		//	Add the following entry in your /etc/apt/sources.list
+			sudo sh -c ‘echo deb https://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list’
+			
+		// Execute below commands
+			sudo apt-get update
+			sudo apt-get install Jenkins
+			
+		//	Open a web browser and enter the URL, here you will be asked to enter the admin password
+		//	http://<your_ec2_ip_address>:8080
+			http://52.70.54.92/8080
+			
+		//	Copy the Jenkins admin user password using the below command, and paste it into the “Administrator Password” section on your web browser
+			sudo cat /var/lib/jenkins/secrets/initialAdminPassword
+			
+		//	Continue with the setup and install suggestive plugins by clicking on the button ‘Install suggested plugins
+		//	Create your first admin user and click on the button ‘Save and Continue
+		//	Navigate to <your_ec2_ip_address>:8080 in your web browser and log in with admin credentials setup in step above.
+			
+		// ** END OF SECTION - 8 **
+		
+		// How to integrate GitHub with Jenkins
+		//	Ref: https://www.youtube.com/watch?v=uExxGC-I1Kc
+		//	Ref: https://www.jenkins.io/solutions/github/
+		//	Ref: https://github.com/sedaatalay/Automatic-Deploying-with-Jenkins-on-an-AWS-EC2-instance-Includes-GitHub-Docker-Git-
+		//	Ref: https://www.howtoforge.com/setup-simple-ci-cd-pipeline-using-github-and-jenkins-on-aws-ec2-linux-instance/ 
+		//	Ref: https://medium.com/coder-life/practice-2-host-your-website-on-github-pages-39229dc9bb1b 
+			
+		genkin --> pull git hub code
+		github
+			Command History
+			
+			ubuntu@ip-172-31-94-22:~/project/Capstone3$ history
+			1  ll
+			2  cd project
+			3  ll
+			4  sudo docker-compose -f docker-compose.override.yml up
+			5  cd Capstone3
+			6  sudo docker-compose -f docker-compose.override.yml up -d
+			7  sudo docker ps -a
+			8  sudo net stat
+			9  sudo netstat -tlnup
+		   10  sudo apt update && sudo apt install net-tools
+		   11  sudo netstat -tulpn
+		   12  nano docker-compose.override.yml 
+		   13  cat docker-compose.override.yml 
+		   14  sudo docker-compose -f docker-compose.override.yml down
+		   15  sudo docker inspect
+		   16  sudo docker ps -a
+		   17  sudo docker-compose -f docker-compose.override.yml up 
+		   18  nano docker-compose.override.yml 
+		   19  cat docker-compose.override.yml 
+		   20  sudo docker-compose -f docker-compose.override.yml up 
+		   21  nano docker-compose.override.yml 
+		   22  sudo docker-compose -f docker-compose.override.yml up
+		   23  git restore .
+		   24  git status
+		   25  git pull
+		   26  cd ,,
+		   27  cd ..
+		   28  sudo chmod -R 776 Capstone3
+		   29  ll
+		   30  cd Capstone3
+		   31  ll
+		   32  sudo docker-compose -f docker-compose.override.yml up
+		   33  sudo docker-compose -f docker-compose.override.yml down
+		   34  sudo docker-compose -f docker-compose.override.yml up -d
+		   35  sudo docker ps -a
+		   36  history			
+		   
+		   
+		   
+		   
+		   Command History 07-May-2023
+		   ubuntu@ip-172-31-18-64:~/project/Capstone3$ history
+    1  ll
+    2  mkdir project
+    3  cd project
+    4  git clone https://github.com/aparashare/Capstone3.git
+    5  ls -lst
+    6  cd Capstone3
+    7  ls -lst
+    8  sudo apt-get update
+    9  sudo apt-get install ca-certificates curl gnupg
+   10  echo   "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+  "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" |   sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+   11  sudo apt-get update
+   12  sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+   13  sudo docker run hello-world
+   14  sudo dpkg -i ./containerd.io_<version>_<arch>.deb   ./docker-ce_<version>_<arch>.deb   ./docker-ce-cli_<version>_<arch>.deb   ./docker-buildx-plugin_<version>_<arch>.deb   ./docker-compose-plugin_<version>_<arch>.deb
+   15  sudo apt-get update
+   16  sudo apt-get install ca-certificates curl gnupg
+   17  sudo install -m 0755 -d /etc/apt/keyrings
+   18  curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+   19  sudo chmod a+r /etc/apt/keyrings/docker.gpg
+   20  echo   "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+  "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" |   sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+   21  sudo apt-get update
+   22  sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+   23  sudo docker run hello-world
+   24  sudo snap install docker
+   25  sudo apt  install docker-compose
+   26  docker -v
+   27  docker-compose -v
+   28  ls -lst
+   29  sudo chmod -R 776 Capstone3
+   30  cd ..
+   31  ls -lst
+   32  ll
+   33  ls -ltr
+   34  ll
+   35  sudo chmod -R 776 Capstone3
+   36  ll
+   37  cd Capstone3
+   38  ll
+   39  sudo docker-compose -f docker-compose.override.yml up - d
+   40  sudo docker-compose -f docker-compose.override.yml up
+   41  sudo docker ps -a
+   42  history
